@@ -1,0 +1,14 @@
+.container {
+  padding: var(--spacing-8);
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.error {
+  background-color: var(--error);
+  color: var(--error-foreground);
+  padding: var(--spacing-4);
+  border-radius: var(--radius);
+  margin-top: var(--spacing-4);
+  text-align: center;
+}

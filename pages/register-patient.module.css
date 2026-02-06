@@ -1,0 +1,124 @@
+.pageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--spacing-8) var(--spacing-4);
+  background-color: var(--background);
+  min-height: calc(100vh - 8rem); /* Adjust for header/footer */
+}
+
+.formWrapper {
+  background-color: var(--surface);
+  padding: var(--spacing-8);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 700px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--spacing-8);
+}
+
+.logoIcon {
+  color: var(--primary);
+  width: 48px;
+  height: 48px;
+  margin-bottom: var(--spacing-4);
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  margin-top: var(--spacing-2);
+  margin-bottom: 0;
+}
+
+.link {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.section {
+  border-top: 1px solid var(--border);
+  padding-top: var(--spacing-6);
+}
+
+.section:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.sectionTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: var(--spacing-4);
+}
+
+.datePickerButton {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+  font-weight: 400;
+  color: var(--foreground);
+}
+
+.datePickerButton[data-placeholder] {
+  color: var(--muted-foreground);
+}
+
+.calendarIcon {
+  margin-right: var(--spacing-2);
+  height: 1rem;
+  width: 1rem;
+  color: var(--muted-foreground);
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+}
+
+.checkboxLabelContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.checkboxLabelContainer > label {
+  margin-bottom: 0;
+}
+
+.submitButton {
+  margin-top: var(--spacing-6);
+  width: 100%;
+  font-size: 1rem;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
