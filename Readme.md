@@ -115,7 +115,13 @@ Made with Floot.
 
 # Instructions
 
-For security reasons, the `env.json` file is not pre-populated — you will need to generate or retrieve the values yourself.
+The `env.json` file is gitignored to prevent accidental credential leaks. Copy the template to get started:
+
+```
+cp env.example.json env.json
+```
+
+Then fill in the values — you will need to generate or retrieve them yourself.
 
 For **JWT secrets**, generate a value with:
 
