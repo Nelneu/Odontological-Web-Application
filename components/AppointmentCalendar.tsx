@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Calendar as BigCalendar,
-  dateFnsLocalizer,
-  Views,
-  View,
-} from "react-big-calendar";
+import { Calendar as BigCalendar, dateFnsLocalizer, Views, View } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { es } from "date-fns/locale";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -45,7 +40,7 @@ const messages = {
 };
 
 const getStatusVariant = (
-  status: string | null
+  status: string | null,
 ): "success" | "default" | "warning" | "destructive" | "secondary" => {
   switch (status) {
     case "confirmed":
@@ -74,28 +69,14 @@ const CustomEvent = ({ event }: { event: CalendarEvent }) => {
   );
 };
 
-const CustomToolbar = ({
-  label,
-  onNavigate,
-  onView,
-  view,
-  isLoading,
-}: any) => {
+const CustomToolbar = ({ label, onNavigate, onView, view, isLoading }: any) => {
   return (
     <div className={styles.toolbar}>
       <div className={styles.toolbarGroup}>
-        <Button
-          variant="outline"
-          size="icon-md"
-          onClick={() => onNavigate("PREV")}
-        >
+        <Button variant="outline" size="icon-md" onClick={() => onNavigate("PREV")}>
           <ChevronLeft size={16} />
         </Button>
-        <Button
-          variant="outline"
-          size="icon-md"
-          onClick={() => onNavigate("NEXT")}
-        >
+        <Button variant="outline" size="icon-md" onClick={() => onNavigate("NEXT")}>
           <ChevronRight size={16} />
         </Button>
         <Button variant="outline" onClick={() => onNavigate("TODAY")}>
@@ -105,22 +86,13 @@ const CustomToolbar = ({
       </div>
       <div className={styles.toolbarLabel}>{label}</div>
       <div className={styles.toolbarGroup}>
-        <Button
-          variant={view === "month" ? "primary" : "outline"}
-          onClick={() => onView("month")}
-        >
+        <Button variant={view === "month" ? "primary" : "outline"} onClick={() => onView("month")}>
           Mes
         </Button>
-        <Button
-          variant={view === "week" ? "primary" : "outline"}
-          onClick={() => onView("week")}
-        >
+        <Button variant={view === "week" ? "primary" : "outline"} onClick={() => onView("week")}>
           Semana
         </Button>
-        <Button
-          variant={view === "day" ? "primary" : "outline"}
-          onClick={() => onView("day")}
-        >
+        <Button variant={view === "day" ? "primary" : "outline"} onClick={() => onView("day")}>
           Día
         </Button>
       </div>

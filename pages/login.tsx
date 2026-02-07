@@ -19,9 +19,7 @@ const LoginPage: React.FC = () => {
               <Stethoscope size={32} className={styles.logoIcon} />
               <h1 className={styles.title}>Agenda Odontológica</h1>
             </Link>
-            <p className={styles.subtitle}>
-              Bienvenido de nuevo. Inicia sesión para continuar.
-            </p>
+            <p className={styles.subtitle}>Bienvenido de nuevo. Inicia sesión para continuar.</p>
           </div>
 
           <PasswordLoginForm />

@@ -23,9 +23,7 @@ export function useForm<T extends z.ZodType<any, any>>({
   validateField: (path: string, options?: { shallow?: boolean }) => void;
   validateForm: () => boolean;
   setFieldError: (path: string, errorMessage: string) => void;
-  handleSubmit: (
-    onSubmit: (data: z.infer<T>) => void,
-  ) => (e: React.FormEvent) => void;
+  handleSubmit: (onSubmit: (data: z.infer<T>) => void) => (e: React.FormEvent) => void;
 } {
   const [values, setValues] = React.useState<Record<string, any>>(
     defaultValues as Record<string, any>,
@@ -33,14 +31,11 @@ export function useForm<T extends z.ZodType<any, any>>({
   const [errors, setErrors] = React.useState<FormErrors>({});
 
   // Manually set an error for a specific field
-  const setFieldError = React.useCallback(
-    (path: string, errorMessage: string) => {
-      setErrors((prev) => {
-        return setValueByPath(prev, path, errorMessage);
-      });
-    },
-    [],
-  );
+  const setFieldError = React.useCallback((path: string, errorMessage: string) => {
+    setErrors((prev) => {
+      return setValueByPath(prev, path, errorMessage);
+    });
+  }, []);
 
   // Check if an issue is an "extra property" error from strict validation
   const isExtraPropertyError = (issue: ZodIssue): boolean => {
@@ -59,9 +54,7 @@ export function useForm<T extends z.ZodType<any, any>>({
       if (err instanceof ZodError) {
         // Separate extra property errors from regular validation errors
         const extraPropertyErrors = err.errors.filter(isExtraPropertyError);
-        const validationErrors = err.errors.filter(
-          (issue) => !isExtraPropertyError(issue),
-        );
+        const validationErrors = err.errors.filter((issue) => !isExtraPropertyError(issue));
 
         // Extra property errors should be thrown
         if (extraPropertyErrors.length > 0) {
@@ -78,9 +71,7 @@ export function useForm<T extends z.ZodType<any, any>>({
           const path = issue.path.join(".");
           // Ensure error message is a string
           const errorMessage =
-            typeof issue.message === "string"
-              ? issue.message
-              : String(issue.message);
+            typeof issue.message === "string" ? issue.message : String(issue.message);
           // build nested tree
           Object.assign(tree, {}); // ensure tree is an object
           const tmp = setValueByPath(tree, path, errorMessage);
@@ -137,9 +128,7 @@ export function useForm<T extends z.ZodType<any, any>>({
             if (shouldIncludeError) {
               // Ensure error message is a string
               const errorMessage =
-                typeof issue.message === "string"
-                  ? issue.message
-                  : String(issue.message);
+                typeof issue.message === "string" ? issue.message : String(issue.message);
               next = setValueByPath(next, ip, errorMessage);
             }
           });
@@ -204,15 +193,7 @@ export function Form<T>(
     children: React.ReactNode;
   } & FormContextValue<T>,
 ) {
-  const {
-    children,
-    values,
-    errors,
-    setValues,
-    validateField,
-    validateForm,
-    setFieldError,
-  } = props;
+  const { children, values, errors, setValues, validateField, validateForm, setFieldError } = props;
   return (
     <FormContext.Provider
       value={{
@@ -239,11 +220,7 @@ export const FormItem = React.forwardRef<
   const id = React.useId();
   return (
     <FormItemContext.Provider value={{ id, name }}>
-      <div
-        ref={ref}
-        className={`${styles.formItem} ${className || ""}`}
-        {...props}
-      />
+      <div ref={ref} className={`${styles.formItem} ${className || ""}`} {...props} />
     </FormItemContext.Provider>
   );
 });
@@ -271,23 +248,22 @@ FormLabel.displayName = "FormLabel";
 /**
  * Wraps around a form control to provide better accessibility. Should be inside FormItem.
  */
-export const FormControl = React.forwardRef<
-  any,
-  React.ComponentPropsWithoutRef<typeof Slot>
->(({ className, ...props }, ref) => {
-  const { formItemId, error, formMessageId, onBlur } = useFormField();
-  return (
-    <Slot
-      ref={ref}
-      id={formItemId}
-      className={`${styles.formControl} ${error ? styles.error : ""} ${className || ""}`}
-      aria-invalid={!!error}
-      aria-describedby={error ? formMessageId : undefined}
-      onBlur={onBlur}
-      {...props}
-    />
-  );
-});
+export const FormControl = React.forwardRef<any, React.ComponentPropsWithoutRef<typeof Slot>>(
+  ({ className, ...props }, ref) => {
+    const { formItemId, error, formMessageId, onBlur } = useFormField();
+    return (
+      <Slot
+        ref={ref}
+        id={formItemId}
+        className={`${styles.formControl} ${error ? styles.error : ""} ${className || ""}`}
+        aria-invalid={!!error}
+        aria-describedby={error ? formMessageId : undefined}
+        onBlur={onBlur}
+        {...props}
+      />
+    );
+  },
+);
 FormControl.displayName = "FormControl";
 
 /**
@@ -348,9 +324,7 @@ type FormContextValue<T> = {
   setFieldError: (path: string, errorMessage: string) => void;
 };
 
-const FormContext = React.createContext<FormContextValue<any> | undefined>(
-  undefined,
-);
+const FormContext = React.createContext<FormContextValue<any> | undefined>(undefined);
 
 function useFormContext(): FormContextValue<any> {
   const ctx = React.useContext(FormContext);
@@ -364,10 +338,7 @@ const FormItemContext = React.createContext<FieldCtx | null>(null);
 function useFormField() {
   const form = useFormContext();
   const ctx = React.useContext(FormItemContext);
-  if (!ctx)
-    throw new Error(
-      "<FormLabel> and <FormControl> must live inside <FormItem>",
-    );
+  if (!ctx) throw new Error("<FormLabel> and <FormControl> must live inside <FormItem>");
 
   const { id, name } = ctx;
   const errorValue = getValueByPath(form.errors, name);
@@ -431,11 +402,7 @@ function setValueByPath(obj: any, path: string, value: any): any {
 }
 
 // DELETE helper — remove a path (and clean up empty containers)
-function deleteValueByPath(
-  obj: any,
-  path: string,
-  options?: { shallow?: boolean },
-): any {
+function deleteValueByPath(obj: any, path: string, options?: { shallow?: boolean }): any {
   const keys = path.split(".");
   const last = keys.pop()!;
   let pointer = obj;
@@ -456,10 +423,7 @@ function deleteValueByPath(
       // but preserve any nested errors
       if (typeof pointer[last] === "string") {
         delete pointer[last];
-      } else if (
-        typeof pointer[last] === "object" &&
-        !Array.isArray(pointer[last])
-      ) {
+      } else if (typeof pointer[last] === "object" && !Array.isArray(pointer[last])) {
         // If it's an object but not an array, we need to keep its children
         // but remove any direct error on this path
         if ("message" in pointer[last]) {
@@ -478,8 +442,7 @@ function deleteValueByPath(
     for (let i = parents.length - 1; i >= 0; i--) {
       const { parent, key } = parents[i];
       const val = parent[key];
-      const isEmptyObj =
-        val && !Array.isArray(val) && Object.keys(val).length === 0;
+      const isEmptyObj = val && !Array.isArray(val) && Object.keys(val).length === 0;
       const isEmptyArr = Array.isArray(val) && val.length === 0;
       if (isEmptyObj || isEmptyArr) {
         delete parent[key];

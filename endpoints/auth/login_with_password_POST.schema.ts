@@ -12,7 +12,7 @@ export type OutputType = {
 
 export const postLogin = async (
   body: z.infer<typeof schema>,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<OutputType> => {
   const validatedInput = schema.parse(body);
   const result = await fetch(`/_api/auth/login_with_password`, {

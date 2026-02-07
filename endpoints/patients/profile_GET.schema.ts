@@ -18,7 +18,7 @@ export type OutputType = PatientProfile;
 
 export const getPatientProfile = async (
   params: InputType,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<OutputType> => {
   const query = new URLSearchParams();
   if (params.patientId) {

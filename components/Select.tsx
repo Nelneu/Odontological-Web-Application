@@ -54,8 +54,7 @@ const SelectScrollDownButton = React.forwardRef<
     <ChevronDown className={styles.scrollIcon} />
   </SelectPrimitive.ScrollDownButton>
 ));
-SelectScrollDownButton.displayName =
-  SelectPrimitive.ScrollDownButton.displayName;
+SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
 
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
@@ -95,11 +94,7 @@ const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
 >(({ children, className, ...props }, ref) => (
-  <SelectPrimitive.Item
-    ref={ref}
-    className={`${styles.selectItem} ${className || ""}`}
-    {...props}
-  >
+  <SelectPrimitive.Item ref={ref} className={`${styles.selectItem} ${className || ""}`} {...props}>
     <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
     <SelectPrimitive.ItemIndicator className={styles.selectItemIndicator}>
       <Check className={styles.checkIcon} />

@@ -38,9 +38,6 @@ describe("useMediaQuery", () => {
   it("should remove event listener on unmount", () => {
     const { unmount } = renderHook(() => useMediaQuery("(min-width: 768px)"));
     unmount();
-    expect(removeListener).toHaveBeenCalledWith(
-      "change",
-      jasmine.any(Function),
-    );
+    expect(removeListener).toHaveBeenCalledWith("change", jasmine.any(Function));
   });
 });

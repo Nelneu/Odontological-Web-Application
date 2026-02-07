@@ -1,7 +1,4 @@
-import {
-  setServerSession,
-  NotAuthenticatedError,
-} from "../../helpers/getSetServerSession";
+import { setServerSession, NotAuthenticatedError } from "../../helpers/getSetServerSession";
 import { User } from "../../helpers/User";
 import { getServerUserSession } from "../../helpers/getServerUserSession";
 
@@ -33,9 +30,6 @@ export async function handle(request: Request) {
       return Response.json({ error: "Not authenticated" }, { status: 401 });
     }
     console.error("Session validation error:", error);
-    return Response.json(
-      { error: "Session validation failed" },
-      { status: 400 }
-    );
+    return Response.json({ error: "Session validation failed" }, { status: 400 });
   }
 }

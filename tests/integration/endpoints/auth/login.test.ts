@@ -7,10 +7,22 @@ const mockDb = vi.hoisted(() => {
   const fn = vi.fn;
   const mock: any = {};
   const chainMethods = [
-    "selectFrom", "insertInto", "updateTable", "deleteFrom",
-    "innerJoin", "leftJoin", "select", "selectAll",
-    "where", "returning", "returningAll", "values",
-    "set", "orderBy", "limit", "distinct",
+    "selectFrom",
+    "insertInto",
+    "updateTable",
+    "deleteFrom",
+    "innerJoin",
+    "leftJoin",
+    "select",
+    "selectAll",
+    "where",
+    "returning",
+    "returningAll",
+    "values",
+    "set",
+    "orderBy",
+    "limit",
+    "distinct",
   ];
   for (const method of chainMethods) {
     mock[method] = fn().mockReturnValue(mock);

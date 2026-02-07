@@ -27,9 +27,7 @@ export interface ThemeModeSwitchProps {
 
 // Note: if the current style only supports one mode (light or dark), we will need to
 // first update the global style to support 2 modes before using this component.
-export const ThemeModeSwitch = ({
-  className,
-}: ThemeModeSwitchProps) => {
+export const ThemeModeSwitch = ({ className }: ThemeModeSwitchProps) => {
   const [currentMode, setCurrentMode] = useState<ThemeMode>("light");
 
   // Initialize theme on component mount
@@ -50,7 +48,7 @@ export const ThemeModeSwitch = ({
         switchToAutoMode();
         break;
     }
-    
+
     setCurrentMode(mode);
   };
 
@@ -87,9 +85,7 @@ export const ThemeModeSwitch = ({
           >
             <Sun size={16} className={styles.menuIcon} />
             Light
-            {currentMode === "light" && (
-              <span className={styles.checkmark}>✓</span>
-            )}
+            {currentMode === "light" && <span className={styles.checkmark}>✓</span>}
           </DropdownMenuItem>
           <DropdownMenuItem
             className={currentMode === "dark" ? styles.activeItem : ""}
@@ -97,9 +93,7 @@ export const ThemeModeSwitch = ({
           >
             <Moon size={16} className={styles.menuIcon} />
             Dark
-            {currentMode === "dark" && (
-              <span className={styles.checkmark}>✓</span>
-            )}
+            {currentMode === "dark" && <span className={styles.checkmark}>✓</span>}
           </DropdownMenuItem>
           <DropdownMenuItem
             className={currentMode === "auto" ? styles.activeItem : ""}
@@ -107,9 +101,7 @@ export const ThemeModeSwitch = ({
           >
             <SunMoon size={16} className={styles.menuIcon} />
             Auto
-            {currentMode === "auto" && (
-              <span className={styles.checkmark}>✓</span>
-            )}
+            {currentMode === "auto" && <span className={styles.checkmark}>✓</span>}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

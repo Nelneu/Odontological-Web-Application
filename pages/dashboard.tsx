@@ -12,9 +12,9 @@ const DashboardPage: React.FC = () => {
 
   const renderLoading = () => (
     <div className={styles.grid}>
-      <Skeleton className={styles.statCard} style={{ height: '120px' }} />
-      <Skeleton className={styles.statCard} style={{ height: '120px' }} />
-      <Skeleton className={styles.statCard} style={{ height: '120px' }} />
+      <Skeleton className={styles.statCard} style={{ height: "120px" }} />
+      <Skeleton className={styles.statCard} style={{ height: "120px" }} />
+      <Skeleton className={styles.statCard} style={{ height: "120px" }} />
     </div>
   );
 
@@ -23,12 +23,14 @@ const DashboardPage: React.FC = () => {
       <AlertTriangle size={48} className={styles.errorIcon} />
       <h2 className={styles.errorTitle}>Error al cargar el dashboard</h2>
       <p className={styles.errorMessage}>
-        {error instanceof Error ? error.message : "Ocurrió un error inesperado. Por favor, intenta de nuevo más tarde."}
+        {error instanceof Error
+          ? error.message
+          : "Ocurrió un error inesperado. Por favor, intenta de nuevo más tarde."}
       </p>
     </div>
   );
 
-  const renderDentistDashboard = (stats: Extract<typeof data, { role: 'dentist' }>) => (
+  const renderDentistDashboard = (stats: Extract<typeof data, { role: "dentist" }>) => (
     <div className={styles.grid}>
       <div className={styles.statCard}>
         <div className={styles.cardHeader}>
@@ -54,7 +56,7 @@ const DashboardPage: React.FC = () => {
     </div>
   );
 
-  const renderPatientDashboard = (stats: Extract<typeof data, { role: 'patient' }>) => (
+  const renderPatientDashboard = (stats: Extract<typeof data, { role: "patient" }>) => (
     <div className={styles.grid}>
       <div className={styles.statCard}>
         <div className={styles.cardHeader}>
@@ -62,11 +64,13 @@ const DashboardPage: React.FC = () => {
           <h3 className={styles.cardTitle}>Próximo Turno</h3>
         </div>
         <p className={styles.cardValue}>
-          {stats.nextAppointmentDate 
-            ? new Date(stats.nextAppointmentDate).toLocaleDateString('es-AR', {
-                year: 'numeric', month: 'long', day: 'numeric' 
-              }) 
-            : 'No hay turnos'}
+          {stats.nextAppointmentDate
+            ? new Date(stats.nextAppointmentDate).toLocaleDateString("es-AR", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            : "No hay turnos"}
         </p>
       </div>
       <div className={styles.statCard}>
@@ -85,9 +89,9 @@ const DashboardPage: React.FC = () => {
     if (!data) return <p>No hay datos disponibles.</p>;
 
     switch (data.role) {
-      case 'dentist':
+      case "dentist":
         return renderDentistDashboard(data);
-      case 'patient':
+      case "patient":
         return renderPatientDashboard(data);
       default:
         return <p>Bienvenido. Su rol ({data.role}) no tiene un dashboard específico.</p>;
@@ -104,12 +108,11 @@ const DashboardPage: React.FC = () => {
         <header className={styles.header}>
           <h1 className={styles.title}>Dashboard</h1>
           <p className={styles.subtitle}>
-            Bienvenido, {authState.type === 'authenticated' ? authState.user.displayName : 'Usuario'}.
+            Bienvenido,{" "}
+            {authState.type === "authenticated" ? authState.user.displayName : "Usuario"}.
           </p>
         </header>
-        <main>
-          {renderContent()}
-        </main>
+        <main>{renderContent()}</main>
       </div>
     </>
   );

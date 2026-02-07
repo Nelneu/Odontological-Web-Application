@@ -71,18 +71,10 @@ describe("Patient Profile POST Schema", () => {
   });
 
   it("rejects empty required-if-present strings", () => {
-    expect(
-      profilePostSchema.safeParse({ address: "" }).success
-    ).toBe(false);
-    expect(
-      profilePostSchema.safeParse({ phone: "" }).success
-    ).toBe(false);
-    expect(
-      profilePostSchema.safeParse({ emergencyContactName: "" }).success
-    ).toBe(false);
-    expect(
-      profilePostSchema.safeParse({ emergencyContactPhone: "" }).success
-    ).toBe(false);
+    expect(profilePostSchema.safeParse({ address: "" }).success).toBe(false);
+    expect(profilePostSchema.safeParse({ phone: "" }).success).toBe(false);
+    expect(profilePostSchema.safeParse({ emergencyContactName: "" }).success).toBe(false);
+    expect(profilePostSchema.safeParse({ emergencyContactPhone: "" }).success).toBe(false);
   });
 });
 

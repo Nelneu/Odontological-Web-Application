@@ -20,13 +20,7 @@ import {
 import { Input } from "./Input";
 import { Textarea } from "./Textarea";
 import { Button } from "./Button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./Select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./Select";
 import { useCreateAppointment } from "../helpers/useCreateAppointment";
 import { useUpdateAppointment } from "../helpers/useUpdateAppointment";
 import { useCancelAppointment } from "../helpers/useCancelAppointment";
@@ -51,17 +45,12 @@ interface AppointmentModalProps {
 
 const appointmentSchema = z.object({
   appointmentDate: z.string().datetime(),
-  durationMinutes: z.coerce
-    .number()
-    .int()
-    .positive("La duración debe ser un número positivo."),
+  durationMinutes: z.coerce.number().int().positive("La duración debe ser un número positivo."),
   reason: z.string().min(1, "El motivo es requerido."),
   notes: z.string().optional(),
   dentistId: z.coerce.number().int(),
   patientId: z.coerce.number().int(),
-  status: z
-    .enum(appointmentStatusValues)
-    .optional(),
+  status: z.enum(appointmentStatusValues).optional(),
 });
 
 type AppointmentFormData = z.infer<typeof appointmentSchema>;
@@ -93,10 +82,7 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
       reason: event?.resource.reason ?? "",
       notes: event?.resource.notes ?? "",
       dentistId: event?.resource.dentist.id,
-      patientId:
-        currentUser.role === "patient"
-          ? currentUser.id
-          : event?.resource.patient.id,
+      patientId: currentUser.role === "patient" ? currentUser.id : event?.resource.patient.id,
       status: (event?.resource.status as AppointmentStatus) ?? "programada",
     },
   });
@@ -109,9 +95,7 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
       notes: event?.resource.notes ?? "",
       dentistId: event?.resource.dentist?.id ?? 0,
       patientId:
-        currentUser.role === "patient"
-          ? currentUser.id
-          : event?.resource.patient?.id ?? 0,
+        currentUser.role === "patient" ? currentUser.id : (event?.resource.patient?.id ?? 0),
       status: (event?.resource.status as AppointmentStatus) ?? "programada",
     };
     form.setValues(defaultValues);
@@ -122,16 +106,12 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
       createAppointment.mutate(
         {
           ...data,
-          patientId:
-            currentUser.role === "patient" ? currentUser.id : data.patientId,
+          patientId: currentUser.role === "patient" ? currentUser.id : data.patientId,
         },
-        { onSuccess: onClose }
+        { onSuccess: onClose },
       );
     } else if (event) {
-      updateAppointment.mutate(
-        { id: event.id, ...data },
-        { onSuccess: onClose }
-      );
+      updateAppointment.mutate({ id: event.id, ...data }, { onSuccess: onClose });
     }
   };
 
@@ -157,30 +137,24 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
     isNew ||
     (event &&
       (currentUser.role === "dentist" ||
-        (currentUser.role === "patient" &&
-          currentUser.id === event.resource.patient.id)));
+        (currentUser.role === "patient" && currentUser.id === event.resource.patient.id)));
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {isNew ? "Programar Nueva Cita" : "Detalles de la Cita"}
-          </DialogTitle>
+          <DialogTitle>{isNew ? "Programar Nueva Cita" : "Detalles de la Cita"}</DialogTitle>
           <DialogDescription>
             {isNew
               ? "Complete los detalles para crear una nueva cita."
               : `Cita para el ${format(
                   parseISO(form.values.appointmentDate!),
-                  "dd/MM/yyyy 'a las' HH:mm"
+                  "dd/MM/yyyy 'a las' HH:mm",
                 )}.`}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <FormItem name="appointmentDate">
                 <FormLabel>Fecha y Hora</FormLabel>
@@ -189,18 +163,13 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
                     type="datetime-local"
                     value={
                       form.values.appointmentDate
-                        ? format(
-                            new Date(form.values.appointmentDate),
-                            "yyyy-MM-dd'T'HH:mm"
-                          )
+                        ? format(new Date(form.values.appointmentDate), "yyyy-MM-dd'T'HH:mm")
                         : ""
                     }
                     onChange={(e) =>
                       form.setValues((prev) => ({
                         ...prev,
-                        appointmentDate: new Date(
-                          e.target.value
-                        ).toISOString(),
+                        appointmentDate: new Date(e.target.value).toISOString(),
                       }))
                     }
                     disabled={!canEdit || isProcessing}
@@ -353,27 +322,19 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   {isProcessing ? <Spinner size="sm" /> : "Cancelar Cita"}
                 </Button>
               )}
-              {!isNew &&
-                currentUser.role === "dentist" &&
-                form.values.status === "programada" && (
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    onClick={handleConfirm}
-                    disabled={isProcessing}
-                  >
-                    {isProcessing ? <Spinner size="sm" /> : "Confirmar Cita"}
-                  </Button>
-                )}
+              {!isNew && currentUser.role === "dentist" && form.values.status === "programada" && (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleConfirm}
+                  disabled={isProcessing}
+                >
+                  {isProcessing ? <Spinner size="sm" /> : "Confirmar Cita"}
+                </Button>
+              )}
               {canEdit && (
                 <Button type="submit" disabled={isProcessing}>
-                  {isProcessing ? (
-                    <Spinner size="sm" />
-                  ) : isNew ? (
-                    "Crear Cita"
-                  ) : (
-                    "Guardar Cambios"
-                  )}
+                  {isProcessing ? <Spinner size="sm" /> : isNew ? "Crear Cita" : "Guardar Cambios"}
                 </Button>
               )}
             </DialogFooter>

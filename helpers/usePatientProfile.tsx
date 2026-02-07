@@ -11,10 +11,7 @@ export const PATIENT_PROFILE_QUERY_KEY = "patientProfile";
  *   - If `patientId` is provided, it will fetch that specific patient's profile, subject to role permissions.
  * @param options - Optional React Query options.
  */
-export const usePatientProfile = (
-  params: InputType,
-  options?: { enabled?: boolean }
-) => {
+export const usePatientProfile = (params: InputType, options?: { enabled?: boolean }) => {
   return useQuery({
     queryKey: [PATIENT_PROFILE_QUERY_KEY, params.patientId],
     queryFn: () => getPatientProfile(params),

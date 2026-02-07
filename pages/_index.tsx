@@ -42,9 +42,8 @@ const IndexPage: React.FC = () => {
                 Transformando la gestión de tu consultorio dental.
               </h1>
               <p className={styles.heroSubtitle}>
-                Agenda Odontológica es la solución integral para administrar
-                turnos, pacientes e historiales clínicos de forma simple y
-                eficiente.
+                Agenda Odontológica es la solución integral para administrar turnos, pacientes e
+                historiales clínicos de forma simple y eficiente.
               </p>
               <div className={styles.heroActions}>
                 <Button asChild size="lg">
@@ -76,8 +75,8 @@ const IndexPage: React.FC = () => {
                 </div>
                 <h3 className={styles.featureTitle}>Gestión de Turnos</h3>
                 <p className={styles.featureDescription}>
-                  Agenda inteligente con recordatorios automáticos para minimizar
-                  ausencias y optimizar tu tiempo.
+                  Agenda inteligente con recordatorios automáticos para minimizar ausencias y
+                  optimizar tu tiempo.
                 </p>
               </div>
               <div className={styles.featureCard}>
@@ -86,8 +85,8 @@ const IndexPage: React.FC = () => {
                 </div>
                 <h3 className={styles.featureTitle}>Registro de Pacientes</h3>
                 <p className={styles.featureDescription}>
-                  Centraliza la información de tus pacientes de forma segura y
-                  accesible desde cualquier dispositivo.
+                  Centraliza la información de tus pacientes de forma segura y accesible desde
+                  cualquier dispositivo.
                 </p>
               </div>
               <div className={styles.featureCard}>
@@ -96,8 +95,8 @@ const IndexPage: React.FC = () => {
                 </div>
                 <h3 className={styles.featureTitle}>Historial Clínico Digital</h3>
                 <p className={styles.featureDescription}>
-                  Registra tratamientos, sube imágenes y sigue la evolución de
-                  cada caso de manera ordenada y profesional.
+                  Registra tratamientos, sube imágenes y sigue la evolución de cada caso de manera
+                  ordenada y profesional.
                 </p>
               </div>
             </div>

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import superjson from 'superjson';
+import superjson from "superjson";
 import { Selectable } from "kysely";
 import { Appointments } from "../../helpers/schema";
 
@@ -13,7 +13,10 @@ export type OutputType = {
   appointment: Selectable<Appointments>;
 };
 
-export const postAppointmentsConfirm = async (body: InputType, init?: RequestInit): Promise<OutputType> => {
+export const postAppointmentsConfirm = async (
+  body: InputType,
+  init?: RequestInit,
+): Promise<OutputType> => {
   const validatedInput = schema.parse(body);
   const result = await fetch(`/_api/appointments/confirm`, {
     method: "POST",

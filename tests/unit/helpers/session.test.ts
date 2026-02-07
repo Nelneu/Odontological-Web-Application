@@ -106,27 +106,21 @@ describe("setServerSession / getServerSessionOrThrow round-trip", () => {
 describe("getServerSessionOrThrow", () => {
   it("throws NotAuthenticatedError when no cookie present", async () => {
     const request = new Request("http://localhost:3344/test");
-    await expect(getServerSessionOrThrow(request)).rejects.toThrow(
-      NotAuthenticatedError
-    );
+    await expect(getServerSessionOrThrow(request)).rejects.toThrow(NotAuthenticatedError);
   });
 
   it("throws NotAuthenticatedError for invalid JWT", async () => {
     const request = new Request("http://localhost:3344/test", {
       headers: { cookie: "floot_built_app_session=invalid-jwt-token" },
     });
-    await expect(getServerSessionOrThrow(request)).rejects.toThrow(
-      NotAuthenticatedError
-    );
+    await expect(getServerSessionOrThrow(request)).rejects.toThrow(NotAuthenticatedError);
   });
 
   it("throws NotAuthenticatedError for wrong cookie name", async () => {
     const request = new Request("http://localhost:3344/test", {
       headers: { cookie: "wrong_cookie_name=somevalue" },
     });
-    await expect(getServerSessionOrThrow(request)).rejects.toThrow(
-      NotAuthenticatedError
-    );
+    await expect(getServerSessionOrThrow(request)).rejects.toThrow(NotAuthenticatedError);
   });
 
   it("handles multiple cookies correctly", async () => {

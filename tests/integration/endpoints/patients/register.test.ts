@@ -6,10 +6,20 @@ const mockDb = vi.hoisted(() => {
   const fn = vi.fn;
   const mock: any = {};
   const methods = [
-    "selectFrom", "insertInto", "updateTable", "deleteFrom",
-    "innerJoin", "select", "selectAll", "where",
-    "returning", "returningAll", "values", "set",
-    "orderBy", "limit",
+    "selectFrom",
+    "insertInto",
+    "updateTable",
+    "deleteFrom",
+    "innerJoin",
+    "select",
+    "selectAll",
+    "where",
+    "returning",
+    "returningAll",
+    "values",
+    "set",
+    "orderBy",
+    "limit",
   ];
   for (const method of methods) {
     mock[method] = fn().mockReturnValue(mock);
@@ -59,18 +69,22 @@ describe("POST /patients/register", () => {
   });
 
   it("returns 400 for missing required fields", async () => {
-    const response = await handle(createRegisterRequest({
-      email: "test@test.com",
-      password: "password123",
-    }));
+    const response = await handle(
+      createRegisterRequest({
+        email: "test@test.com",
+        password: "password123",
+      }),
+    );
     expect(response.status).toBe(400);
   });
 
   it("returns 400 for short password", async () => {
-    const response = await handle(createRegisterRequest({
-      ...validPatientData,
-      password: "short",
-    }));
+    const response = await handle(
+      createRegisterRequest({
+        ...validPatientData,
+        password: "short",
+      }),
+    );
     expect(response.status).toBe(400);
   });
 
@@ -87,15 +101,26 @@ describe("POST /patients/register", () => {
     mockDb.executeTakeFirst.mockResolvedValueOnce(undefined); // no existing user
 
     const newUser = {
-      id: 5, email: "paciente@example.com", displayName: "Juan Pérez",
-      avatarUrl: null, role: "patient", createdAt: new Date(), updatedAt: new Date(),
+      id: 5,
+      email: "paciente@example.com",
+      displayName: "Juan Pérez",
+      avatarUrl: null,
+      role: "patient",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
     const newPatient = {
-      id: 1, userId: 5, address: "Av. 9 de Julio 1234",
-      phone: "+54 11 1234-5678", birthDate: new Date("1985-03-20"),
-      allergies: null, medicalHistory: null,
-      emergencyContactName: "Ana Pérez", emergencyContactPhone: "+54 11 9876-5432",
-      createdAt: new Date(), updatedAt: new Date(),
+      id: 1,
+      userId: 5,
+      address: "Av. 9 de Julio 1234",
+      phone: "+54 11 1234-5678",
+      birthDate: new Date("1985-03-20"),
+      allergies: null,
+      medicalHistory: null,
+      emergencyContactName: "Ana Pérez",
+      emergencyContactPhone: "+54 11 9876-5432",
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
 
     mockDb.transaction.mockReturnValue({
@@ -111,15 +136,23 @@ describe("POST /patients/register", () => {
   });
 
   it("validates email format", async () => {
-    const response = await handle(createRegisterRequest({
-      ...validPatientData,
-      email: "not-an-email",
-    }));
+    const response = await handle(
+      createRegisterRequest({
+        ...validPatientData,
+        email: "not-an-email",
+      }),
+    );
     expect(response.status).toBe(400);
   });
 
   it("validates all required patient fields", async () => {
-    const requiredFields = ["address", "phone", "birthDate", "emergencyContactName", "emergencyContactPhone"];
+    const requiredFields = [
+      "address",
+      "phone",
+      "birthDate",
+      "emergencyContactName",
+      "emergencyContactPhone",
+    ];
     for (const field of requiredFields) {
       const data = { ...validPatientData };
       delete (data as any)[field];

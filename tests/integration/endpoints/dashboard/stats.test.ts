@@ -7,10 +7,21 @@ const mockDb = vi.hoisted(() => {
   const fn = vi.fn;
   const mock: any = {};
   const methods = [
-    "selectFrom", "insertInto", "updateTable", "deleteFrom",
-    "innerJoin", "select", "selectAll", "where",
-    "returning", "returningAll", "values", "set",
-    "orderBy", "limit", "distinct",
+    "selectFrom",
+    "insertInto",
+    "updateTable",
+    "deleteFrom",
+    "innerJoin",
+    "select",
+    "selectAll",
+    "where",
+    "returning",
+    "returningAll",
+    "values",
+    "set",
+    "orderBy",
+    "limit",
+    "distinct",
   ];
   for (const method of methods) {
     mock[method] = fn().mockReturnValue(mock);
@@ -60,7 +71,10 @@ describe("GET /dashboard/stats", () => {
   });
 
   it("returns dentist stats", async () => {
-    mockGetServerUserSession.mockResolvedValue({ user: createMockUser({ id: 1, role: "dentist" }), session: {} });
+    mockGetServerUserSession.mockResolvedValue({
+      user: createMockUser({ id: 1, role: "dentist" }),
+      session: {},
+    });
     mockDb.executeTakeFirstOrThrow
       .mockResolvedValueOnce({ count: "5" })
       .mockResolvedValueOnce({ count: "12" })
@@ -76,8 +90,13 @@ describe("GET /dashboard/stats", () => {
   });
 
   it("returns patient stats", async () => {
-    mockGetServerUserSession.mockResolvedValue({ user: createMockUser({ id: 2, role: "patient" }), session: {} });
-    mockDb.executeTakeFirst.mockResolvedValueOnce({ appointmentDate: new Date("2025-07-01T14:00:00.000Z") });
+    mockGetServerUserSession.mockResolvedValue({
+      user: createMockUser({ id: 2, role: "patient" }),
+      session: {},
+    });
+    mockDb.executeTakeFirst.mockResolvedValueOnce({
+      appointmentDate: new Date("2025-07-01T14:00:00.000Z"),
+    });
     mockDb.executeTakeFirstOrThrow.mockResolvedValueOnce({ count: "3" });
 
     const response = await handle(createStatsRequest());
@@ -89,7 +108,10 @@ describe("GET /dashboard/stats", () => {
   });
 
   it("returns patient stats with null when no upcoming appointments", async () => {
-    mockGetServerUserSession.mockResolvedValue({ user: createMockUser({ id: 2, role: "patient" }), session: {} });
+    mockGetServerUserSession.mockResolvedValue({
+      user: createMockUser({ id: 2, role: "patient" }),
+      session: {},
+    });
     mockDb.executeTakeFirst.mockResolvedValueOnce(undefined);
     mockDb.executeTakeFirstOrThrow.mockResolvedValueOnce({ count: "0" });
 
@@ -101,7 +123,10 @@ describe("GET /dashboard/stats", () => {
   });
 
   it("returns generic stats for admin", async () => {
-    mockGetServerUserSession.mockResolvedValue({ user: createMockUser({ id: 1, role: "admin" }), session: {} });
+    mockGetServerUserSession.mockResolvedValue({
+      user: createMockUser({ id: 1, role: "admin" }),
+      session: {},
+    });
 
     const response = await handle(createStatsRequest());
     expect(response.status).toBe(200);
@@ -110,7 +135,10 @@ describe("GET /dashboard/stats", () => {
   });
 
   it("returns generic stats for 'user' role", async () => {
-    mockGetServerUserSession.mockResolvedValue({ user: createMockUser({ id: 1, role: "user" }), session: {} });
+    mockGetServerUserSession.mockResolvedValue({
+      user: createMockUser({ id: 1, role: "user" }),
+      session: {},
+    });
 
     const response = await handle(createStatsRequest());
     expect(response.status).toBe(200);

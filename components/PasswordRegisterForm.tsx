@@ -15,10 +15,7 @@ import { Button } from "./Button";
 import { Spinner } from "./Spinner";
 import styles from "./PasswordRegisterForm.module.css";
 import { useAuth } from "../helpers/useAuth";
-import {
-  schema,
-  postRegister,
-} from "../endpoints/auth/register_with_password_POST.schema";
+import { schema, postRegister } from "../endpoints/auth/register_with_password_POST.schema";
 
 export type RegisterFormData = z.infer<typeof schema>;
 
@@ -61,15 +58,10 @@ export const PasswordRegisterForm: React.FC<PasswordRegisterFormProps> = ({
         const errorMessage = err.message;
 
         if (errorMessage.includes("Email already in use")) {
-          setError(
-            "This email is already registered. Please try logging in instead."
-          );
+          setError("This email is already registered. Please try logging in instead.");
         } else if (errorMessage.toLowerCase().includes("display name")) {
           setError("Please provide a valid display name that isn't empty.");
-        } else if (
-          errorMessage.includes("display") ||
-          errorMessage.includes("name")
-        ) {
+        } else if (errorMessage.includes("display") || errorMessage.includes("name")) {
           setError("Please check your display name: " + errorMessage);
         } else {
           setError(errorMessage || "Registration failed. Please try again.");
@@ -87,9 +79,7 @@ export const PasswordRegisterForm: React.FC<PasswordRegisterFormProps> = ({
     <Form {...form}>
       {error && <div className={styles.errorMessage}>{error}</div>}
       <form
-        onSubmit={form.handleSubmit((data) =>
-          handleSubmit(data as z.infer<typeof schema>)
-        )}
+        onSubmit={form.handleSubmit((data) => handleSubmit(data as z.infer<typeof schema>))}
         className={`${styles.form} ${className || ""}`}
       >
         <FormItem name="email">
@@ -124,9 +114,7 @@ export const PasswordRegisterForm: React.FC<PasswordRegisterFormProps> = ({
               }
             />
           </FormControl>
-          <FormDescription>
-            Spaces, emojis, and special characters are all allowed
-          </FormDescription>
+          <FormDescription>Spaces, emojis, and special characters are all allowed</FormDescription>
           <FormMessage />
         </FormItem>
 
@@ -151,11 +139,7 @@ export const PasswordRegisterForm: React.FC<PasswordRegisterFormProps> = ({
           <FormMessage />
         </FormItem>
 
-        <Button
-          type="submit"
-          disabled={isLoading}
-          className={styles.submitButton}
-        >
+        <Button type="submit" disabled={isLoading} className={styles.submitButton}>
           {isLoading ? (
             <>
               <Spinner size="sm" /> Creating Account...

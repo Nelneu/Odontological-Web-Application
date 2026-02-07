@@ -25,15 +25,9 @@ type AnyMutationResult = UseMutationResult<any, any, any, any>;
  * if (isError) return <p>{errorMessage}</p>;
  */
 export const useLoadingStates = (mutations: AnyMutationResult[]) => {
-  const isLoading = useMemo(
-    () => mutations.some((m) => m.isPending),
-    [mutations]
-  );
+  const isLoading = useMemo(() => mutations.some((m) => m.isPending), [mutations]);
 
-  const firstErrorMutation = useMemo(
-    () => mutations.find((m) => m.isError),
-    [mutations]
-  );
+  const firstErrorMutation = useMemo(() => mutations.find((m) => m.isError), [mutations]);
 
   const isError = !!firstErrorMutation;
   const error = firstErrorMutation?.error;

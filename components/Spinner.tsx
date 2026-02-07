@@ -5,11 +5,7 @@ interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: "sm" | "md" | "lg";
 }
 
-export const Spinner: React.FC<SpinnerProps> = ({
-  size = "md",
-  className,
-  ...props
-}) => {
+export const Spinner: React.FC<SpinnerProps> = ({ size = "md", className, ...props }) => {
   return (
     <div
       className={`${styles.spinner} ${styles[size]} ${className || ""}`}

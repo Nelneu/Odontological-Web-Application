@@ -7,10 +7,7 @@ interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 }
 
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
-  (
-    { className, disableResize = false, variant = "default", ...props },
-    ref
-  ) => {
+  ({ className, disableResize = false, variant = "default", ...props }, ref) => {
     const resizeClass = disableResize ? styles.noResize : "";
 
     return (
@@ -20,7 +17,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 Textarea.displayName = "Textarea";

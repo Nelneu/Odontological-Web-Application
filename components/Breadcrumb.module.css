@@ -32,7 +32,7 @@
       background-color var(--animation-duration-fast) ease-in-out;
   }
 
-    .link:hover {
+  .link:hover {
     color: var(--primary);
     background-color: color-mix(in srgb, var(--primary) 5%, transparent);
   }

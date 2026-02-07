@@ -15,7 +15,7 @@ export type OutputType =
 
 export const postLogout = async (
   body: z.infer<typeof schema> = {},
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<OutputType> => {
   const result = await fetch(`/_api/auth/logout`, {
     method: "POST",

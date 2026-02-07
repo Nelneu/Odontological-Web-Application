@@ -21,15 +21,14 @@
     color: var(--muted-foreground);
   }
 
-    .textarea:hover {
+  .textarea:hover {
     border-color: color-mix(in srgb, var(--primary) 80%, transparent);
     background-color: color-mix(in srgb, var(--card) 98%, var(--primary) 2%);
   }
 
   .textarea:focus {
     border-color: var(--primary);
-    box-shadow:
-      0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
     background-color: var(--card);
   }
 
@@ -60,7 +59,7 @@
     box-shadow: none;
   }
 
-    /* Dark mode adjustments */
+  /* Dark mode adjustments */
   :global(.dark) .textarea {
     background-color: color-mix(in srgb, var(--background) 80%, black);
   }

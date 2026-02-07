@@ -62,8 +62,7 @@
   .icon {
     width: 1rem;
     height: 1rem;
-    transition: transform var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
     flex-shrink: 0;
     color: var(--muted-foreground);
   }
@@ -81,13 +80,11 @@
     overflow: hidden;
     background-color: transparent;
     color: inherit;
-    animation: accordion-up var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: accordion-up var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .content[data-state="open"] {
-    animation: accordion-down var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: accordion-down var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .contentInner {

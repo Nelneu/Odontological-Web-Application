@@ -1,5 +1,5 @@
 import { z } from "zod";
-import superjson from 'superjson';
+import superjson from "superjson";
 import { Selectable } from "kysely";
 import { Users } from "../helpers/schema";
 
@@ -8,7 +8,7 @@ export const schema = z.object({});
 
 export type InputType = z.infer<typeof schema>;
 
-export type Dentist = Pick<Selectable<Users>, 'id' | 'displayName' | 'avatarUrl'>;
+export type Dentist = Pick<Selectable<Users>, "id" | "displayName" | "avatarUrl">;
 
 export type OutputType = {
   dentists: Dentist[];

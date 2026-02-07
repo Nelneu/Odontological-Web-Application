@@ -32,21 +32,17 @@ export class NotAuthenticatedError extends Error {
 /**
  * Returns the user session or throw an error. Make sure to handle the error (return a proper request)
  */
-export async function getServerSessionOrThrow(
-  request: Request
-): Promise<Session> {
+export async function getServerSessionOrThrow(request: Request): Promise<Session> {
   // Note: if session is valid, also consider making the cookie rolling by using setSession
 
   const cookieHeader = request.headers.get("cookie") || "";
-  const cookies = cookieHeader
-    .split(";")
-    .reduce((cookies: Record<string, string>, cookie) => {
-      const [name, value] = cookie.trim().split("=");
-      if (name && value) {
-        cookies[name] = decodeURIComponent(value);
-      }
-      return cookies;
-    }, {});
+  const cookies = cookieHeader.split(";").reduce((cookies: Record<string, string>, cookie) => {
+    const [name, value] = cookie.trim().split("=");
+    if (name && value) {
+      cookies[name] = decodeURIComponent(value);
+    }
+    return cookies;
+  }, {});
   const sessionCookie = cookies[CookieName];
 
   if (!sessionCookie) {
@@ -65,10 +61,7 @@ export async function getServerSessionOrThrow(
   }
 }
 
-export async function setServerSession(
-  response: Response,
-  session: Session
-): Promise<void> {
+export async function setServerSession(response: Response, session: Session): Promise<void> {
   const token = await new SignJWT({
     id: session.id,
     createdAt: session.createdAt,

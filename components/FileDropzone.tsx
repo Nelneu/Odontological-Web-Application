@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
-import { Upload, X } from 'lucide-react';
-import { Button } from './Button';
-import styles from './FileDropzone.module.css';
+import React, { useCallback, useState } from "react";
+import { Upload, X } from "lucide-react";
+import { Button } from "./Button";
+import styles from "./FileDropzone.module.css";
 
 export interface FileDropzoneProps {
   className?: string;
@@ -16,7 +16,7 @@ export interface FileDropzoneProps {
 }
 
 export const FileDropzone: React.FC<FileDropzoneProps> = ({
-  className = '',
+  className = "",
   accept,
   maxFiles = 1,
   maxSize,
@@ -28,83 +28,96 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
-  const handleDrag = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (disabled) return;
-    
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setIsDragging(true);
-    } else if (e.type === "dragleave") {
+
+  const handleDrag = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (disabled) return;
+
+      if (e.type === "dragenter" || e.type === "dragover") {
+        setIsDragging(true);
+      } else if (e.type === "dragleave") {
+        setIsDragging(false);
+      }
+    },
+    [disabled],
+  );
+
+  const validateFiles = useCallback(
+    (fileList: FileList | null): File[] => {
+      if (!fileList) return [];
+
+      const files = Array.from(fileList);
+
+      if (files.length > maxFiles) {
+        setError(`Maximum ${maxFiles} file${maxFiles === 1 ? "" : "s"} allowed`);
+        return [];
+      }
+
+      if (accept) {
+        const acceptedTypes = accept.split(",").map((type) => type.trim());
+        const invalidFiles = files.filter(
+          (file) =>
+            !acceptedTypes.some((type) => {
+              if (type.startsWith(".")) {
+                return file.name.toLowerCase().endsWith(type.toLowerCase());
+              }
+              return file.type.match(new RegExp(type.replace("*", ".*")));
+            }),
+        );
+
+        if (invalidFiles.length > 0) {
+          setError(`Invalid file type. Accepted: ${accept}`);
+          return [];
+        }
+      }
+
+      if (maxSize) {
+        const oversizedFiles = files.filter((file) => file.size > maxSize);
+        if (oversizedFiles.length > 0) {
+          setError(`File size exceeds ${Math.round(maxSize / 1024 / 1024)}MB limit`);
+          return [];
+        }
+      }
+
+      setError(null);
+      return files;
+    },
+    [accept, maxFiles, maxSize],
+  );
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (disabled) return;
+
       setIsDragging(false);
-    }
-  }, [disabled]);
 
-  const validateFiles = useCallback((fileList: FileList | null): File[] => {
-    if (!fileList) return [];
-    
-    const files = Array.from(fileList);
-    
-    if (files.length > maxFiles) {
-      setError(`Maximum ${maxFiles} file${maxFiles === 1 ? '' : 's'} allowed`);
-      return [];
-    }
-
-    if (accept) {
-      const acceptedTypes = accept.split(',').map(type => type.trim());
-      const invalidFiles = files.filter(file => 
-        !acceptedTypes.some(type => {
-          if (type.startsWith('.')) {
-            return file.name.toLowerCase().endsWith(type.toLowerCase());
-          }
-          return file.type.match(new RegExp(type.replace('*', '.*')));
-        })
-      );
-      
-      if (invalidFiles.length > 0) {
-        setError(`Invalid file type. Accepted: ${accept}`);
-        return [];
+      const files = validateFiles(e.dataTransfer.files);
+      if (files.length > 0 && onFilesSelected) {
+        onFilesSelected(files);
       }
-    }
+    },
+    [disabled, validateFiles, onFilesSelected],
+  );
 
-    if (maxSize) {
-      const oversizedFiles = files.filter(file => file.size > maxSize);
-      if (oversizedFiles.length > 0) {
-        setError(`File size exceeds ${Math.round(maxSize/1024/1024)}MB limit`);
-        return [];
+  const handleFileInput = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (disabled) return;
+
+      const files = validateFiles(e.target.files);
+      if (files.length > 0 && onFilesSelected) {
+        onFilesSelected(files);
       }
-    }
-
-    setError(null);
-    return files;
-  }, [accept, maxFiles, maxSize]);
-
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (disabled) return;
-    
-    setIsDragging(false);
-    
-    const files = validateFiles(e.dataTransfer.files);
-    if (files.length > 0 && onFilesSelected) {
-      onFilesSelected(files);
-    }
-  }, [disabled, validateFiles, onFilesSelected]);
-
-  const handleFileInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (disabled) return;
-    
-    const files = validateFiles(e.target.files);
-    if (files.length > 0 && onFilesSelected) {
-      onFilesSelected(files);
-    }
-    // Reset input value to allow selecting the same file again
-    e.target.value = '';
-  }, [disabled, validateFiles, onFilesSelected]);
+      // Reset input value to allow selecting the same file again
+      e.target.value = "";
+    },
+    [disabled, validateFiles, onFilesSelected],
+  );
 
   const clearError = useCallback(() => {
     setError(null);
@@ -122,8 +135,8 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
       <label
         className={`
           ${styles.dropzone}
-          ${isDragging ? styles.dragging : ''}
-          ${disabled ? styles.disabled : ''}
+          ${isDragging ? styles.dragging : ""}
+          ${disabled ? styles.disabled : ""}
         `}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
@@ -138,7 +151,7 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
           disabled={disabled}
           aria-label="File upload"
         />
-        
+
         <span className={styles.icon}>{icon}</span>
         <span className={styles.title}>{title}</span>
         {(subtitle || defaultSubtitle) && (
@@ -149,12 +162,7 @@ export const FileDropzone: React.FC<FileDropzoneProps> = ({
       {error && (
         <div className={styles.error} role="alert">
           <span>{error}</span>
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            onClick={clearError}
-            aria-label="Clear error"
-          >
+          <Button variant="ghost" size="icon-sm" onClick={clearError} aria-label="Clear error">
             <X size={16} />
           </Button>
         </div>

@@ -23,7 +23,7 @@ export async function handle(request: Request) {
       if (!patient) {
         return new Response(
           superjson.stringify({ error: "Patient profile not found for this user." }),
-          { status: 404 }
+          { status: 404 },
         );
       }
       targetPatientId = patient.id;
@@ -31,14 +31,16 @@ export async function handle(request: Request) {
       if (!validatedData.patientId) {
         return new Response(
           superjson.stringify({ error: "patientId is required for admin/dentist roles." }),
-          { status: 400 }
+          { status: 400 },
         );
       }
       targetPatientId = validatedData.patientId;
     } else {
       return new Response(
-        superjson.stringify({ error: "Forbidden. You do not have permission to update patient profiles." }),
-        { status: 403 }
+        superjson.stringify({
+          error: "Forbidden. You do not have permission to update patient profiles.",
+        }),
+        { status: 403 },
       );
     }
 
@@ -57,22 +59,29 @@ export async function handle(request: Request) {
     if (!result) {
       return new Response(
         superjson.stringify({ error: "Patient profile not found or update failed." }),
-        { status: 404 }
+        { status: 404 },
       );
     }
 
-    return new Response(superjson.stringify({ success: true, patient: result } satisfies OutputType));
+    return new Response(
+      superjson.stringify({ success: true, patient: result } satisfies OutputType),
+    );
   } catch (error) {
     console.error("Error updating patient profile:", error);
     if (error instanceof NotAuthenticatedError) {
       return new Response(superjson.stringify({ error: "Not authenticated" }), { status: 401 });
     }
     if (error instanceof z.ZodError) {
-      return new Response(superjson.stringify({ error: "Invalid input data", details: error.errors }), { status: 400 });
+      return new Response(
+        superjson.stringify({ error: "Invalid input data", details: error.errors }),
+        { status: 400 },
+      );
     }
     if (error instanceof Error) {
       return new Response(superjson.stringify({ error: error.message }), { status: 400 });
     }
-    return new Response(superjson.stringify({ error: "An unknown error occurred" }), { status: 500 });
+    return new Response(superjson.stringify({ error: "An unknown error occurred" }), {
+      status: 500,
+    });
   }
 }

@@ -1,35 +1,29 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { type DialogProps } from "@radix-ui/react-dialog"
-import { Command as CommandPrimitive } from "cmdk"
-import { Search } from "lucide-react"
-import { Dialog, DialogContent } from "./Dialog"
-import styles from "./Command.module.css"
+import * as React from "react";
+import { type DialogProps } from "@radix-ui/react-dialog";
+import { Command as CommandPrimitive } from "cmdk";
+import { Search } from "lucide-react";
+import { Dialog, DialogContent } from "./Dialog";
+import styles from "./Command.module.css";
 
 const Command = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive>
 >(({ className, ...props }, ref) => (
-  <CommandPrimitive
-    ref={ref}
-    className={`${styles.command} ${className ?? ""}`}
-    {...props}
-  />
-))
-Command.displayName = CommandPrimitive.displayName
+  <CommandPrimitive ref={ref} className={`${styles.command} ${className ?? ""}`} {...props} />
+));
+Command.displayName = CommandPrimitive.displayName;
 
 const CommandDialog = ({ children, ...props }: DialogProps) => {
   return (
     <Dialog {...props}>
       <DialogContent className={styles.CommandDialogContent}>
-        <Command className={styles.commandInDialog}>
-          {children}
-        </Command>
+        <Command className={styles.commandInDialog}>{children}</Command>
       </DialogContent>
     </Dialog>
-  )
-}
+  );
+};
 
 const CommandInput = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Input>,
@@ -43,9 +37,9 @@ const CommandInput = React.forwardRef<
       {...props}
     />
   </div>
-))
+));
 
-CommandInput.displayName = CommandPrimitive.Input.displayName
+CommandInput.displayName = CommandPrimitive.Input.displayName;
 
 const CommandList = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.List>,
@@ -56,22 +50,16 @@ const CommandList = React.forwardRef<
     className={`${styles.commandList} ${className ?? ""}`}
     {...props}
   />
-))
+));
 
-CommandList.displayName = CommandPrimitive.List.displayName
+CommandList.displayName = CommandPrimitive.List.displayName;
 
 const CommandEmpty = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Empty>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Empty>
->((props, ref) => (
-  <CommandPrimitive.Empty
-    ref={ref}
-    className={styles.commandEmpty}
-    {...props}
-  />
-))
+>((props, ref) => <CommandPrimitive.Empty ref={ref} className={styles.commandEmpty} {...props} />);
 
-CommandEmpty.displayName = CommandPrimitive.Empty.displayName
+CommandEmpty.displayName = CommandPrimitive.Empty.displayName;
 
 const CommandGroup = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Group>,
@@ -82,9 +70,9 @@ const CommandGroup = React.forwardRef<
     className={`${styles.commandGroup} ${className ?? ""}`}
     {...props}
   />
-))
+));
 
-CommandGroup.displayName = CommandPrimitive.Group.displayName
+CommandGroup.displayName = CommandPrimitive.Group.displayName;
 
 const CommandSeparator = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Separator>,
@@ -95,8 +83,8 @@ const CommandSeparator = React.forwardRef<
     className={`${styles.commandSeparator} ${className ?? ""}`}
     {...props}
   />
-))
-CommandSeparator.displayName = CommandPrimitive.Separator.displayName
+));
+CommandSeparator.displayName = CommandPrimitive.Separator.displayName;
 
 const CommandItem = React.forwardRef<
   React.ElementRef<typeof CommandPrimitive.Item>,
@@ -107,22 +95,14 @@ const CommandItem = React.forwardRef<
     className={`${styles.commandItem} ${className ?? ""}`}
     {...props}
   />
-))
+));
 
-CommandItem.displayName = CommandPrimitive.Item.displayName
+CommandItem.displayName = CommandPrimitive.Item.displayName;
 
-const CommandShortcut = ({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLSpanElement>) => {
-  return (
-    <span
-      className={`${styles.commandShortcut} ${className ?? ""}`}
-      {...props}
-    />
-  )
-}
-CommandShortcut.displayName = "CommandShortcut"
+const CommandShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
+  return <span className={`${styles.commandShortcut} ${className ?? ""}`} {...props} />;
+};
+CommandShortcut.displayName = "CommandShortcut";
 
 export {
   Command,
@@ -134,4 +114,4 @@ export {
   CommandItem,
   CommandShortcut,
   CommandSeparator,
-}
+};

@@ -14,7 +14,7 @@ export type OutputType =
 
 export const getSession = async (
   body: z.infer<typeof schema> = {},
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<OutputType> => {
   const result = await fetch(`/_api/auth/session`, {
     method: "GET",

@@ -48,27 +48,27 @@ export default function RegisterPatientPage() {
           <div className={styles.header}>
             <Stethoscope className={styles.logoIcon} />
             <h1 className={styles.title}>
-              {authState.type === "authenticated" 
-                ? (authState.user.role === "patient" 
-                    ? "Registrar familiar o conocido"
-                    : "Registrar nuevo paciente")
-                : "Crear una cuenta de paciente"
-              }
+              {authState.type === "authenticated"
+                ? authState.user.role === "patient"
+                  ? "Registrar familiar o conocido"
+                  : "Registrar nuevo paciente"
+                : "Crear una cuenta de paciente"}
             </h1>
             <p className={styles.subtitle}>
-              {authState.type === "authenticated" 
-                ? (authState.user.role === "patient"
-                    ? "Complete el formulario para registrar a un familiar o conocido como nuevo paciente"
-                    : "Complete el formulario para agregar un nuevo paciente a la práctica")
-                : (
-                  <>
-                    ¿Ya tiene una cuenta?{" "}
-                    <Link to="/login" className={styles.link}>
-                      Inicie sesión
-                    </Link>
-                  </>
+              {authState.type === "authenticated" ? (
+                authState.user.role === "patient" ? (
+                  "Complete el formulario para registrar a un familiar o conocido como nuevo paciente"
+                ) : (
+                  "Complete el formulario para agregar un nuevo paciente a la práctica"
                 )
-              }
+              ) : (
+                <>
+                  ¿Ya tiene una cuenta?{" "}
+                  <Link to="/login" className={styles.link}>
+                    Inicie sesión
+                  </Link>
+                </>
+              )}
             </p>
           </div>
 

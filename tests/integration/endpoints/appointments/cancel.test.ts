@@ -7,10 +7,20 @@ const mockDb = vi.hoisted(() => {
   const fn = vi.fn;
   const mock: any = {};
   const methods = [
-    "selectFrom", "insertInto", "updateTable", "deleteFrom",
-    "innerJoin", "select", "selectAll", "where",
-    "returning", "returningAll", "values", "set",
-    "orderBy", "limit",
+    "selectFrom",
+    "insertInto",
+    "updateTable",
+    "deleteFrom",
+    "innerJoin",
+    "select",
+    "selectAll",
+    "where",
+    "returning",
+    "returningAll",
+    "values",
+    "set",
+    "orderBy",
+    "limit",
   ];
   for (const method of methods) {
     mock[method] = fn().mockReturnValue(mock);
@@ -60,7 +70,10 @@ describe("POST /appointments/cancel", () => {
   });
 
   it("returns 404 when appointment not found", async () => {
-    mockGetServerUserSession.mockResolvedValue({ user: createMockUser({ role: "dentist" }), session: {} });
+    mockGetServerUserSession.mockResolvedValue({
+      user: createMockUser({ role: "dentist" }),
+      session: {},
+    });
     mockDb.executeTakeFirst.mockResolvedValueOnce(undefined);
 
     const response = await handle(createCancelRequest({ id: 999 }));
@@ -68,7 +81,10 @@ describe("POST /appointments/cancel", () => {
   });
 
   it("returns 403 when patient tries to cancel someone else's appointment", async () => {
-    mockGetServerUserSession.mockResolvedValue({ user: createMockUser({ id: 5, role: "patient" }), session: {} });
+    mockGetServerUserSession.mockResolvedValue({
+      user: createMockUser({ id: 5, role: "patient" }),
+      session: {},
+    });
     mockDb.executeTakeFirst.mockResolvedValueOnce(createMockAppointment({ patientId: 10 }));
 
     const response = await handle(createCancelRequest({ id: 1 }));
@@ -78,7 +94,10 @@ describe("POST /appointments/cancel", () => {
   });
 
   it("returns 403 when dentist tries to cancel another dentist's appointment", async () => {
-    mockGetServerUserSession.mockResolvedValue({ user: createMockUser({ id: 3, role: "dentist" }), session: {} });
+    mockGetServerUserSession.mockResolvedValue({
+      user: createMockUser({ id: 3, role: "dentist" }),
+      session: {},
+    });
     mockDb.executeTakeFirst.mockResolvedValueOnce(createMockAppointment({ dentistId: 7 }));
 
     const response = await handle(createCancelRequest({ id: 1 }));
@@ -86,7 +105,10 @@ describe("POST /appointments/cancel", () => {
   });
 
   it("allows patient to cancel own appointment", async () => {
-    mockGetServerUserSession.mockResolvedValue({ user: createMockUser({ id: 2, role: "patient" }), session: {} });
+    mockGetServerUserSession.mockResolvedValue({
+      user: createMockUser({ id: 2, role: "patient" }),
+      session: {},
+    });
     const appointment = createMockAppointment({ patientId: 2 });
     mockDb.executeTakeFirst.mockResolvedValueOnce(appointment);
     mockDb.executeTakeFirstOrThrow.mockResolvedValueOnce({ ...appointment, status: "cancelada" });
@@ -98,7 +120,10 @@ describe("POST /appointments/cancel", () => {
   });
 
   it("allows admin to cancel any appointment", async () => {
-    mockGetServerUserSession.mockResolvedValue({ user: createMockUser({ id: 1, role: "admin" }), session: {} });
+    mockGetServerUserSession.mockResolvedValue({
+      user: createMockUser({ id: 1, role: "admin" }),
+      session: {},
+    });
     const appointment = createMockAppointment({ patientId: 5, dentistId: 3 });
     mockDb.executeTakeFirst.mockResolvedValueOnce(appointment);
     mockDb.executeTakeFirstOrThrow.mockResolvedValueOnce({ ...appointment, status: "cancelada" });
@@ -108,8 +133,13 @@ describe("POST /appointments/cancel", () => {
   });
 
   it("returns 200 for already cancelled appointment", async () => {
-    mockGetServerUserSession.mockResolvedValue({ user: createMockUser({ id: 1, role: "dentist" }), session: {} });
-    mockDb.executeTakeFirst.mockResolvedValueOnce(createMockAppointment({ dentistId: 1, status: "cancelada" }));
+    mockGetServerUserSession.mockResolvedValue({
+      user: createMockUser({ id: 1, role: "dentist" }),
+      session: {},
+    });
+    mockDb.executeTakeFirst.mockResolvedValueOnce(
+      createMockAppointment({ dentistId: 1, status: "cancelada" }),
+    );
 
     const response = await handle(createCancelRequest({ id: 1 }));
     expect(response.status).toBe(200);
@@ -118,7 +148,10 @@ describe("POST /appointments/cancel", () => {
   });
 
   it("returns 403 for 'user' role", async () => {
-    mockGetServerUserSession.mockResolvedValue({ user: createMockUser({ id: 1, role: "user" }), session: {} });
+    mockGetServerUserSession.mockResolvedValue({
+      user: createMockUser({ id: 1, role: "user" }),
+      session: {},
+    });
     mockDb.executeTakeFirst.mockResolvedValueOnce(createMockAppointment());
 
     const response = await handle(createCancelRequest({ id: 1 }));

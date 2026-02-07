@@ -13,6 +13,7 @@ const MakeProtectedRoute: (roles: User["role"][]) => React.FC<{
 }> =
   (roles) =>
   ({ children }) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- HOC pattern: inner arrow is a valid component
     const { authState } = useAuth();
 
     // Show loading state while checking authentication

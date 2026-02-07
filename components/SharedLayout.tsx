@@ -6,9 +6,7 @@ import { Stethoscope, LogOut, User, LayoutDashboard, Calendar } from "lucide-rea
 import styles from "./SharedLayout.module.css";
 import { Spinner } from "./Spinner";
 
-export const SharedLayout: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const SharedLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { authState, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -24,9 +22,7 @@ export const SharedLayout: React.FC<{ children: React.ReactNode }> = ({
       case "authenticated":
         return (
           <div className={styles.authControls}>
-            <span className={styles.userName}>
-              {authState.user.displayName}
-            </span>
+            <span className={styles.userName}>{authState.user.displayName}</span>
             <Button variant="ghost" size="sm" asChild>
               <Link to="/dashboard">
                 <LayoutDashboard size={16} />

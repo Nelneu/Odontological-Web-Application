@@ -22,9 +22,7 @@ export type OutputType =
       role: Exclude<UserRole, "dentist" | "patient">;
     };
 
-export const getDashboardStats = async (
-  init?: RequestInit
-): Promise<OutputType> => {
+export const getDashboardStats = async (init?: RequestInit): Promise<OutputType> => {
   const result = await fetch(`/_api/dashboard/stats`, {
     method: "GET",
     ...init,
