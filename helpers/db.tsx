@@ -8,8 +8,9 @@ export const db = new Kysely<DB>({
   dialect: new PostgresJSDialect({
     postgres: postgres(process.env.FLOOT_DATABASE_URL, {
       prepare: false,
-      idle_timeout: 10,
-      max: 3,
+      idle_timeout: 20,
+      max: 10,
+      max_lifetime: 60 * 30,
     }),
   }),
 });
