@@ -14,8 +14,7 @@
     cursor: pointer;
     margin: 0;
     padding: 0;
-    transition: all var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
     appearance: none;
     flex-shrink: 0;
   }
@@ -34,8 +33,7 @@
   .item[data-state="checked"] {
     border-color: var(--primary);
     transform: scale(1);
-    animation: radioPulse var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: radioPulse var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .item:disabled {
@@ -60,14 +58,12 @@
     border-radius: var(--radius-full);
     background-color: var(--primary);
     transform: scale(0);
-    transition: transform var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .item[data-state="checked"] .indicatorInner {
     transform: scale(1);
-    animation: dotAppear var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: dotAppear var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .item:disabled .indicatorInner {

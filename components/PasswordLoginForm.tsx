@@ -1,22 +1,12 @@
 import React, { useState } from "react";
 import { z } from "zod";
 import { useNavigate } from "react-router-dom";
-import {
-  Form,
-  FormControl,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  useForm,
-} from "./Form";
+import { Form, FormControl, FormItem, FormLabel, FormMessage, useForm } from "./Form";
 import { Input } from "./Input";
 import { Button } from "./Button";
 import { Spinner } from "./Spinner";
 import styles from "./PasswordLoginForm.module.css";
-import {
-  schema,
-  postLogin,
-} from "../endpoints/auth/login_with_password_POST.schema";
+import { schema, postLogin } from "../endpoints/auth/login_with_password_POST.schema";
 import { useAuth } from "../helpers/useAuth";
 
 export type LoginFormData = z.infer<typeof schema>;
@@ -25,9 +15,7 @@ interface PasswordLoginFormProps {
   className?: string;
 }
 
-export const PasswordLoginForm: React.FC<PasswordLoginFormProps> = ({
-  className,
-}) => {
+export const PasswordLoginForm: React.FC<PasswordLoginFormProps> = ({ className }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { onLogin } = useAuth();
@@ -51,9 +39,7 @@ export const PasswordLoginForm: React.FC<PasswordLoginFormProps> = ({
       setTimeout(() => navigate("/"), 200);
     } catch (err) {
       console.error("Login error:", err);
-      setError(
-        err instanceof Error ? err.message : "Login failed. Please try again."
-      );
+      setError(err instanceof Error ? err.message : "Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -76,9 +62,7 @@ export const PasswordLoginForm: React.FC<PasswordLoginFormProps> = ({
               autoComplete="email"
               disabled={isLoading}
               value={form.values.email}
-              onChange={(e) =>
-                form.setValues((prev) => ({ ...prev, email: e.target.value }))
-              }
+              onChange={(e) => form.setValues((prev) => ({ ...prev, email: e.target.value }))}
             />
           </FormControl>
           <FormMessage />
@@ -104,11 +88,7 @@ export const PasswordLoginForm: React.FC<PasswordLoginFormProps> = ({
           <FormMessage />
         </FormItem>
 
-        <Button
-          type="submit"
-          disabled={isLoading}
-          className={styles.submitButton}
-        >
+        <Button type="submit" disabled={isLoading} className={styles.submitButton}>
           {isLoading ? (
             <span className={styles.loadingText}>
               <Spinner className={styles.spinner} size="sm" />

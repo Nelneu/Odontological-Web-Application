@@ -13,13 +13,11 @@
   }
 
   .content {
-    animation: scaleIn var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: scaleIn var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .subContent {
-    animation: fadeIn var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: fadeIn var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .item,

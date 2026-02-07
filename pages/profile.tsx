@@ -72,10 +72,7 @@ export default function ProfilePage() {
     <>
       <Helmet>
         <title>Gestión de Pacientes - Agenda Odontológica</title>
-        <meta
-          name="description"
-          content="Administre y vea los perfiles de los pacientes."
-        />
+        <meta name="description" content="Administre y vea los perfiles de los pacientes." />
       </Helmet>
       <div className={styles.pageContainer}>
         <div className={styles.header}>
@@ -89,10 +86,10 @@ export default function ProfilePage() {
           <div className={styles.patientsGrid}>
             {[...Array(6)].map((_, index) => (
               <div key={index} className={styles.patientCardSkeleton}>
-                <Skeleton style={{ width: '64px', height: '64px', borderRadius: '50%' }} />
+                <Skeleton style={{ width: "64px", height: "64px", borderRadius: "50%" }} />
                 <div className={styles.patientInfoSkeleton}>
-                  <Skeleton style={{ width: '150px', height: '20px' }} />
-                  <Skeleton style={{ width: '120px', height: '16px' }} />
+                  <Skeleton style={{ width: "150px", height: "20px" }} />
+                  <Skeleton style={{ width: "120px", height: "16px" }} />
                 </div>
               </div>
             ))}

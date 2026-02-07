@@ -13,11 +13,7 @@ const Slider = React.forwardRef<
     (Array.isArray(props.value) && props.value.length > 1);
 
   return (
-    <SliderPrimitive.Root
-      ref={ref}
-      className={`${styles.slider} ${className ?? ""}`}
-      {...props}
-    >
+    <SliderPrimitive.Root ref={ref} className={`${styles.slider} ${className ?? ""}`} {...props}>
       <SliderPrimitive.Track className={styles.track}>
         <SliderPrimitive.Range className={styles.range} />
       </SliderPrimitive.Track>

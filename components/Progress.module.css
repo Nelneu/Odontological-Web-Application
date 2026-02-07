@@ -8,7 +8,7 @@
     box-shadow: var(--shadow);
     position: relative;
   }
-  
+
   .indicator {
     position: absolute;
     width: 100%;

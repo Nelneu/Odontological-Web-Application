@@ -17,27 +17,26 @@ export async function handle(request: Request) {
       const todayEnd = new Date();
       todayEnd.setHours(23, 59, 59, 999);
 
-      const [appointmentsToday, totalPatients, upcomingAppointments] =
-        await Promise.all([
-          db
-            .selectFrom("appointments")
-            .select((eb) => eb.fn.count<string>("id").as("count"))
-            .where("dentistId", "=", user.id)
-            .where("appointmentDate", ">=", todayStart)
-            .where("appointmentDate", "<=", todayEnd)
-            .executeTakeFirstOrThrow(),
-          db
-            .selectFrom("appointments")
-            .select((eb) => eb.fn.count<string>("patientId").distinct().as("count"))
-            .where("dentistId", "=", user.id)
-            .executeTakeFirstOrThrow(),
-          db
-            .selectFrom("appointments")
-            .select((eb) => eb.fn.count<string>("id").as("count"))
-            .where("dentistId", "=", user.id)
-            .where("appointmentDate", ">", new Date())
-            .executeTakeFirstOrThrow(),
-        ]);
+      const [appointmentsToday, totalPatients, upcomingAppointments] = await Promise.all([
+        db
+          .selectFrom("appointments")
+          .select((eb) => eb.fn.count<string>("id").as("count"))
+          .where("dentistId", "=", user.id)
+          .where("appointmentDate", ">=", todayStart)
+          .where("appointmentDate", "<=", todayEnd)
+          .executeTakeFirstOrThrow(),
+        db
+          .selectFrom("appointments")
+          .select((eb) => eb.fn.count<string>("patientId").distinct().as("count"))
+          .where("dentistId", "=", user.id)
+          .executeTakeFirstOrThrow(),
+        db
+          .selectFrom("appointments")
+          .select((eb) => eb.fn.count<string>("id").as("count"))
+          .where("dentistId", "=", user.id)
+          .where("appointmentDate", ">", new Date())
+          .executeTakeFirstOrThrow(),
+      ]);
 
       stats = {
         role: "dentist",
@@ -86,6 +85,8 @@ export async function handle(request: Request) {
     if (error instanceof Error) {
       return new Response(superjson.stringify({ error: error.message }), { status: 400 });
     }
-    return new Response(superjson.stringify({ error: "An unknown error occurred" }), { status: 500 });
+    return new Response(superjson.stringify({ error: "An unknown error occurred" }), {
+      status: 500,
+    });
   }
 }

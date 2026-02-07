@@ -74,12 +74,8 @@ describe("Appointments POST Schema", () => {
   });
 
   it("rejects non-positive duration", () => {
-    expect(
-      postSchema.safeParse({ ...validAppointment, durationMinutes: 0 }).success
-    ).toBe(false);
-    expect(
-      postSchema.safeParse({ ...validAppointment, durationMinutes: -30 }).success
-    ).toBe(false);
+    expect(postSchema.safeParse({ ...validAppointment, durationMinutes: 0 }).success).toBe(false);
+    expect(postSchema.safeParse({ ...validAppointment, durationMinutes: -30 }).success).toBe(false);
   });
 
   it("rejects non-integer duration", () => {
@@ -174,30 +170,16 @@ describe("Appointments Update Schema", () => {
   });
 
   it("validates status enum values", () => {
-    expect(
-      updateSchema.safeParse({ id: 1, status: "programada" }).success
-    ).toBe(true);
-    expect(
-      updateSchema.safeParse({ id: 1, status: "confirmada" }).success
-    ).toBe(true);
-    expect(
-      updateSchema.safeParse({ id: 1, status: "completada" }).success
-    ).toBe(true);
-    expect(
-      updateSchema.safeParse({ id: 1, status: "cancelada" }).success
-    ).toBe(true);
-    expect(
-      updateSchema.safeParse({ id: 1, status: "ausente" }).success
-    ).toBe(true);
+    expect(updateSchema.safeParse({ id: 1, status: "programada" }).success).toBe(true);
+    expect(updateSchema.safeParse({ id: 1, status: "confirmada" }).success).toBe(true);
+    expect(updateSchema.safeParse({ id: 1, status: "completada" }).success).toBe(true);
+    expect(updateSchema.safeParse({ id: 1, status: "cancelada" }).success).toBe(true);
+    expect(updateSchema.safeParse({ id: 1, status: "ausente" }).success).toBe(true);
   });
 
   it("rejects invalid status values", () => {
-    expect(
-      updateSchema.safeParse({ id: 1, status: "invalid" }).success
-    ).toBe(false);
-    expect(
-      updateSchema.safeParse({ id: 1, status: "pending" }).success
-    ).toBe(false);
+    expect(updateSchema.safeParse({ id: 1, status: "invalid" }).success).toBe(false);
+    expect(updateSchema.safeParse({ id: 1, status: "pending" }).success).toBe(false);
   });
 
   it("requires id", () => {

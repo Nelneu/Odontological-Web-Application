@@ -6,8 +6,7 @@
     max-width: 24rem;
     pointer-events: all;
     transform-origin: var(--radix-popover-content-transform-origin);
-    animation: contentFadeIn var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: contentFadeIn var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform, opacity;
     box-shadow: var(--shadow-md);
     border-radius: var(--radius);
@@ -37,8 +36,7 @@
 
   /* Ensure the popover closes properly when clicking outside */
   .content[data-state="closed"] {
-    animation: contentFadeOut var(--animation-duration-fast)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: contentFadeOut var(--animation-duration-fast) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   @keyframes contentFadeOut {

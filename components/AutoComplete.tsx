@@ -1,12 +1,6 @@
 import { CommandGroup, CommandItem, CommandList } from "./Command";
 import { Command as CommandPrimitive } from "cmdk";
-import {
-  useState,
-  useRef,
-  useCallback,
-  type KeyboardEvent,
-  type ReactNode,
-} from "react";
+import { useState, useRef, useCallback, type KeyboardEvent, type ReactNode } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./Popover";
 
 import { Skeleton } from "./Skeleton";
@@ -69,9 +63,7 @@ export const AutoComplete = <T = unknown,>({
 
       // This is not a default behaviour of the <input /> field
       if (event.key === "Enter" && input.value !== "") {
-        const optionToSelect = options.find(
-          (option) => getDisplayText(option) === input.value,
-        );
+        const optionToSelect = options.find((option) => getDisplayText(option) === input.value);
         if (optionToSelect) {
           setSelected(optionToSelect);
           onValueChange?.(optionToSelect);
@@ -115,10 +107,7 @@ export const AutoComplete = <T = unknown,>({
 
   return (
     <Popover open={isOpen} onOpenChange={setOpen}>
-      <CommandPrimitive
-        onKeyDown={handleKeyDown}
-        className={styles.autoComplete}
-      >
+      <CommandPrimitive onKeyDown={handleKeyDown} className={styles.autoComplete}>
         <div className={styles.inputWrapper}>
           <PopoverTrigger asChild>
             <CommandPrimitive.Input

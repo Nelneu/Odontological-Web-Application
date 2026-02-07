@@ -4,10 +4,7 @@ import { sql } from "kysely";
 import { schema } from "./login_with_password_POST.schema";
 import { compare } from "bcryptjs";
 import { randomBytes } from "crypto";
-import {
-  setServerSession,
-  SessionExpirationSeconds,
-} from "../../helpers/getSetServerSession";
+import { setServerSession, SessionExpirationSeconds } from "../../helpers/getSetServerSession";
 import { User } from "../../helpers/User";
 
 // Configuration constants
@@ -19,9 +16,7 @@ const RATE_LIMIT_CONFIG = {
 } as const;
 
 // Helper function to safely convert union type to Date
-function safeToDate(
-  value: string | number | bigint | null | undefined
-): Date | null {
+function safeToDate(value: string | number | bigint | null | undefined): Date | null {
   if (value === null || value === undefined) {
     return null;
   }
@@ -43,7 +38,7 @@ export async function handle(request: Request) {
     const normalizedEmail = email.toLowerCase();
     const now = new Date();
     const windowStart = new Date(
-      now.getTime() - RATE_LIMIT_CONFIG.lockoutWindowMinutes * 60 * 1000
+      now.getTime() - RATE_LIMIT_CONFIG.lockoutWindowMinutes * 60 * 1000,
     );
 
     // Start transaction for atomic rate limiting and session creation
@@ -51,9 +46,7 @@ export async function handle(request: Request) {
       // Use PostgreSQL advisory lock to serialize access per email
       // This prevents concurrent processing of the same email address
       // The lock is automatically released when the transaction ends
-      await sql`SELECT pg_advisory_xact_lock(hashtextextended(${normalizedEmail},0))`.execute(
-        trx
-      );
+      await sql`SELECT pg_advisory_xact_lock(hashtextextended(${normalizedEmail},0))`.execute(trx);
 
       // Get rate limiting info efficiently - use COUNT and MAX instead of SELECT *
       const rateLimitQuery = await trx
@@ -78,14 +71,11 @@ export async function handle(request: Request) {
         safeLastFailedAt
       ) {
         const lockoutEnd = new Date(
-          safeLastFailedAt.getTime() +
-            RATE_LIMIT_CONFIG.lockoutDurationMinutes * 60 * 1000
+          safeLastFailedAt.getTime() + RATE_LIMIT_CONFIG.lockoutDurationMinutes * 60 * 1000,
         );
 
         if (now < lockoutEnd) {
-          const remainingMinutes = Math.ceil(
-            (lockoutEnd.getTime() - now.getTime()) / (60 * 1000)
-          );
+          const remainingMinutes = Math.ceil((lockoutEnd.getTime() - now.getTime()) / (60 * 1000));
           // DO NOT log blocked attempts to prevent extending lockout indefinitely
           return {
             type: "rate_limited" as const,
@@ -158,9 +148,7 @@ export async function handle(request: Request) {
 
       // Create session inside the same transaction to ensure atomicity
       const sessionId = randomBytes(32).toString("hex");
-      const expiresAt = new Date(
-        now.getTime() + SessionExpirationSeconds * 1000
-      );
+      const expiresAt = new Date(now.getTime() + SessionExpirationSeconds * 1000);
 
       await trx
         .insertInto("sessions")
@@ -193,7 +181,7 @@ export async function handle(request: Request) {
     // Run cleanup outside transaction to prevent extending transaction time and potential deadlocks
     if (Math.random() < RATE_LIMIT_CONFIG.cleanupProbability) {
       const cleanupBefore = new Date(
-        now.getTime() - RATE_LIMIT_CONFIG.lockoutWindowMinutes * 60 * 1000
+        now.getTime() - RATE_LIMIT_CONFIG.lockoutWindowMinutes * 60 * 1000,
       );
       try {
         const deleteResult = await db
@@ -212,15 +200,12 @@ export async function handle(request: Request) {
         {
           message: `Too many failed login attempts. Account locked for ${result.remainingMinutes} more minutes.`,
         },
-        { status: 429 }
+        { status: 429 },
       );
     }
 
     if (result.type === "auth_failed") {
-      return Response.json(
-        { message: "Invalid email or password" },
-        { status: 401 }
-      );
+      return Response.json({ message: "Invalid email or password" }, { status: 401 });
     }
 
     // Success case - session was already created in transaction

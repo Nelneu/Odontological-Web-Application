@@ -27,8 +27,7 @@
     border-radius: 0;
     cursor: pointer;
     position: relative;
-    transition: color var(--animation-duration-normal)
-      cubic-bezier(0.22, 1, 0.36, 1);
+    transition: color var(--animation-duration-normal) cubic-bezier(0.22, 1, 0.36, 1);
     white-space: nowrap;
   }
 
@@ -51,8 +50,7 @@
     height: 2px;
     background-color: var(--primary);
     transform-origin: center;
-    transition: transform var(--animation-duration-normal)
-      cubic-bezier(0.22, 1, 0.36, 1);
+    transition: transform var(--animation-duration-normal) cubic-bezier(0.22, 1, 0.36, 1);
     transform: scaleX(1);
   }
 
@@ -64,17 +62,12 @@
     left: 0;
     right: 0;
     height: 2px;
-    background-color: color-mix(
-      in srgb,
-      var(--muted-foreground) 30%,
-      transparent
-    );
+    background-color: color-mix(in srgb, var(--muted-foreground) 30%, transparent);
     transform-origin: center;
     transform: scaleX(0.6);
     transition:
       transform var(--animation-duration-normal) cubic-bezier(0.22, 1, 0.36, 1),
-      background-color var(--animation-duration-normal)
-        cubic-bezier(0.22, 1, 0.36, 1);
+      background-color var(--animation-duration-normal) cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .tabsTrigger:focus-visible {
@@ -127,10 +120,6 @@
   }
 
   :global(.dark) .tabsTrigger:not([data-state="active"]):hover::after {
-    background-color: color-mix(
-      in srgb,
-      var(--muted-foreground) 40%,
-      transparent
-    );
+    background-color: color-mix(in srgb, var(--muted-foreground) 40%, transparent);
   }
 }

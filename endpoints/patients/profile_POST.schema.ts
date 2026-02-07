@@ -23,7 +23,7 @@ export type OutputType = {
 
 export const postPatientProfile = async (
   body: InputType,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<OutputType> => {
   const validatedInput = schema.parse(body);
   const result = await fetch(`/_api/patients/profile`, {

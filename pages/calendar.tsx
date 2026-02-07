@@ -49,11 +49,7 @@ const CalendarPage = () => {
     };
   }, [date, view]);
 
-  const {
-    data: appointmentsData,
-    isFetching,
-    error,
-  } = useAppointments(dateRange);
+  const { data: appointmentsData, isFetching, error } = useAppointments(dateRange);
 
   const events = useMemo<CalendarEvent[]>(() => {
     if (!appointmentsData?.appointments) return [];
@@ -73,20 +69,14 @@ const CalendarPage = () => {
 
   const handleSelectSlot = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
-      if (
-        authState.type === "authenticated" &&
-        authState.user.role === "dentist"
-      ) {
+      if (authState.type === "authenticated" && authState.user.role === "dentist") {
         setModalState({ isOpen: true, slot: { start, end } });
       }
-      if (
-        authState.type === "authenticated" &&
-        authState.user.role === "patient"
-      ) {
+      if (authState.type === "authenticated" && authState.user.role === "patient") {
         setModalState({ isOpen: true, slot: { start, end } });
       }
     },
-    [authState]
+    [authState],
   );
 
   const handleSelectEvent = useCallback((event: CalendarEvent) => {
@@ -145,11 +135,7 @@ const CalendarPage = () => {
             currentUser={authState.user}
           />
         )}
-        {error && (
-          <div className={styles.error}>
-            Error al cargar las citas: {error.message}
-          </div>
-        )}
+        {error && <div className={styles.error}>Error al cargar las citas: {error.message}</div>}
       </div>
     </>
   );

@@ -62,10 +62,22 @@ export function createChainableMock() {
 export function createHoistedMock(viFn: typeof vi.fn) {
   const mock: any = {};
   const chainMethods = [
-    "selectFrom", "insertInto", "updateTable", "deleteFrom",
-    "innerJoin", "leftJoin", "select", "selectAll",
-    "where", "returning", "returningAll", "values",
-    "set", "orderBy", "limit", "distinct",
+    "selectFrom",
+    "insertInto",
+    "updateTable",
+    "deleteFrom",
+    "innerJoin",
+    "leftJoin",
+    "select",
+    "selectAll",
+    "where",
+    "returning",
+    "returningAll",
+    "values",
+    "set",
+    "orderBy",
+    "limit",
+    "distinct",
   ];
 
   for (const method of chainMethods) {
@@ -96,13 +108,15 @@ export function createHoistedMock(viFn: typeof vi.fn) {
 /**
  * Creates a mock User object
  */
-export function createMockUser(overrides: Partial<{
-  id: number;
-  email: string;
-  displayName: string;
-  avatarUrl: string | null;
-  role: "admin" | "dentist" | "patient" | "user";
-}> = {}) {
+export function createMockUser(
+  overrides: Partial<{
+    id: number;
+    email: string;
+    displayName: string;
+    avatarUrl: string | null;
+    role: "admin" | "dentist" | "patient" | "user";
+  }> = {},
+) {
   return {
     id: 1,
     email: "test@example.com",

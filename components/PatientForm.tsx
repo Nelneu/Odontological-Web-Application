@@ -1,26 +1,37 @@
-import React from 'react';
-import { z } from 'zod';
-import { useForm, Form, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from './Form';
-import { Input } from './Input';
-import { Textarea } from './Textarea';
-import { Button } from './Button';
-import { Checkbox } from './Checkbox';
-import { Popover, PopoverTrigger, PopoverContent } from './Popover';
-import { Calendar as CalendarIcon, Loader2 } from 'lucide-react';
-import { Calendar } from './Calendar';
-import { useRegisterPatient } from '../helpers/useRegisterPatient';
-import { useUpdatePatientProfile } from '../helpers/useUpdatePatientProfile';
-import { useSuccessToast } from '../helpers/useSuccessToast';
-import { useLoadingStates } from '../helpers/useLoadingStates';
-import { schema as registerSchema } from '../endpoints/patients/register_POST.schema';
-import { schema as updateSchema, InputType as UpdateInputType } from '../endpoints/patients/profile_POST.schema';
-import { PatientProfile } from '../endpoints/patients/profile_GET.schema';
-import styles from './PatientForm.module.css';
+import React from "react";
+import { z } from "zod";
+import {
+  useForm,
+  Form,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+} from "./Form";
+import { Input } from "./Input";
+import { Textarea } from "./Textarea";
+import { Button } from "./Button";
+import { Checkbox } from "./Checkbox";
+import { Popover, PopoverTrigger, PopoverContent } from "./Popover";
+import { Calendar as CalendarIcon, Loader2 } from "lucide-react";
+import { Calendar } from "./Calendar";
+import { useRegisterPatient } from "../helpers/useRegisterPatient";
+import { useUpdatePatientProfile } from "../helpers/useUpdatePatientProfile";
+import { useSuccessToast } from "../helpers/useSuccessToast";
+import { useLoadingStates } from "../helpers/useLoadingStates";
+import { schema as registerSchema } from "../endpoints/patients/register_POST.schema";
+import {
+  schema as updateSchema,
+  InputType as UpdateInputType,
+} from "../endpoints/patients/profile_POST.schema";
+import { PatientProfile } from "../endpoints/patients/profile_GET.schema";
+import styles from "./PatientForm.module.css";
 
 // Client-side schema for registration, adding privacy policy validation
 const registrationFormSchema = registerSchema.extend({
-  privacyPolicy: z.boolean().refine(v => v, {
-    message: 'Debe aceptar la política de privacidad.'
+  privacyPolicy: z.boolean().refine((v) => v, {
+    message: "Debe aceptar la política de privacidad.",
   }),
 });
 
@@ -28,7 +39,7 @@ type RegistrationFormValues = z.infer<typeof registrationFormSchema>;
 type UpdateFormValues = z.infer<typeof updateSchema>;
 
 interface PatientFormProps {
-  mode: 'register' | 'edit';
+  mode: "register" | "edit";
   patient?: PatientProfile;
   onSuccess?: () => void;
   className?: string;
@@ -38,16 +49,16 @@ const RegisterForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
   const form = useForm({
     schema: registrationFormSchema,
     defaultValues: {
-      email: '',
-      password: '',
-      displayName: '',
-      address: '',
-      phone: '',
+      email: "",
+      password: "",
+      displayName: "",
+      address: "",
+      phone: "",
       birthDate: undefined,
-      allergies: '',
-      medicalHistory: '',
-      emergencyContactName: '',
-      emergencyContactPhone: '',
+      allergies: "",
+      medicalHistory: "",
+      emergencyContactName: "",
+      emergencyContactPhone: "",
       privacyPolicy: false,
     },
   });
@@ -60,7 +71,7 @@ const RegisterForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
     registerMutation.mutate(values, {
       onSuccess: () => {
         form.setValues(form.defaultValues as RegistrationFormValues);
-        showSuccessToast('patientRegistration');
+        showSuccessToast("patientRegistration");
         onSuccess?.();
       },
     });
@@ -76,7 +87,9 @@ const RegisterForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
               <Input
                 placeholder="Ej: Juan Pérez"
                 value={form.values.displayName}
-                onChange={(e) => form.setValues((prev) => ({ ...prev, displayName: e.target.value }))}
+                onChange={(e) =>
+                  form.setValues((prev) => ({ ...prev, displayName: e.target.value }))
+                }
                 disabled={isLoading}
               />
             </FormControl>
@@ -121,7 +134,11 @@ const RegisterForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
                     className={styles.datePickerButton}
                     disabled={isLoading}
                   >
-                    {form.values.birthDate ? form.values.birthDate.toLocaleDateString('es-AR') : <span>Seleccionar fecha</span>}
+                    {form.values.birthDate ? (
+                      form.values.birthDate.toLocaleDateString("es-AR")
+                    ) : (
+                      <span>Seleccionar fecha</span>
+                    )}
                     <CalendarIcon size={16} />
                   </Button>
                 </FormControl>
@@ -130,8 +147,10 @@ const RegisterForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
                 <Calendar
                   mode="single"
                   selected={form.values.birthDate}
-                  onSelect={(date) => form.setValues((prev) => ({ ...prev, birthDate: date as Date }))}
-                  disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
+                  onSelect={(date) =>
+                    form.setValues((prev) => ({ ...prev, birthDate: date as Date }))
+                  }
+                  disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                   initialFocus
                 />
               </PopoverContent>
@@ -168,33 +187,35 @@ const RegisterForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
 
         <h3 className={styles.sectionTitle}>Información Médica</h3>
         <div className={styles.grid}>
-            <FormItem name="allergies" className={styles.fullWidth}>
-                <FormLabel>Alergias</FormLabel>
-                <FormControl>
-                <Textarea
-                    placeholder="Ej: Penicilina, aspirina..."
-                    value={form.values.allergies ?? ''}
-                    onChange={(e) => form.setValues((prev) => ({ ...prev, allergies: e.target.value }))}
-                    disabled={isLoading}
-                />
-                </FormControl>
-                <FormDescription>Si no tiene, deje este campo vacío.</FormDescription>
-                <FormMessage />
-            </FormItem>
+          <FormItem name="allergies" className={styles.fullWidth}>
+            <FormLabel>Alergias</FormLabel>
+            <FormControl>
+              <Textarea
+                placeholder="Ej: Penicilina, aspirina..."
+                value={form.values.allergies ?? ""}
+                onChange={(e) => form.setValues((prev) => ({ ...prev, allergies: e.target.value }))}
+                disabled={isLoading}
+              />
+            </FormControl>
+            <FormDescription>Si no tiene, deje este campo vacío.</FormDescription>
+            <FormMessage />
+          </FormItem>
 
-            <FormItem name="medicalHistory" className={styles.fullWidth}>
-                <FormLabel>Historial Médico Relevante</FormLabel>
-                <FormControl>
-                <Textarea
-                    placeholder="Ej: Diabetes, hipertensión, cirugías previas..."
-                    value={form.values.medicalHistory ?? ''}
-                    onChange={(e) => form.setValues((prev) => ({ ...prev, medicalHistory: e.target.value }))}
-                    disabled={isLoading}
-                />
-                </FormControl>
-                <FormDescription>Si no tiene, deje este campo vacío.</FormDescription>
-                <FormMessage />
-            </FormItem>
+          <FormItem name="medicalHistory" className={styles.fullWidth}>
+            <FormLabel>Historial Médico Relevante</FormLabel>
+            <FormControl>
+              <Textarea
+                placeholder="Ej: Diabetes, hipertensión, cirugías previas..."
+                value={form.values.medicalHistory ?? ""}
+                onChange={(e) =>
+                  form.setValues((prev) => ({ ...prev, medicalHistory: e.target.value }))
+                }
+                disabled={isLoading}
+              />
+            </FormControl>
+            <FormDescription>Si no tiene, deje este campo vacío.</FormDescription>
+            <FormMessage />
+          </FormItem>
         </div>
 
         <h3 className={styles.sectionTitle}>Contacto de Emergencia</h3>
@@ -205,7 +226,9 @@ const RegisterForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
               <Input
                 placeholder="Ej: María González"
                 value={form.values.emergencyContactName}
-                onChange={(e) => form.setValues((prev) => ({ ...prev, emergencyContactName: e.target.value }))}
+                onChange={(e) =>
+                  form.setValues((prev) => ({ ...prev, emergencyContactName: e.target.value }))
+                }
                 disabled={isLoading}
               />
             </FormControl>
@@ -218,7 +241,9 @@ const RegisterForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
               <Input
                 placeholder="Ej: 11 9876 5432"
                 value={form.values.emergencyContactPhone}
-                onChange={(e) => form.setValues((prev) => ({ ...prev, emergencyContactPhone: e.target.value }))}
+                onChange={(e) =>
+                  form.setValues((prev) => ({ ...prev, emergencyContactPhone: e.target.value }))
+                }
                 disabled={isLoading}
               />
             </FormControl>
@@ -231,12 +256,16 @@ const RegisterForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
             <Checkbox
               id="privacyPolicy"
               checked={form.values.privacyPolicy}
-              onChange={(e) => form.setValues((prev) => ({ ...prev, privacyPolicy: e.target.checked }))}
+              onChange={(e) =>
+                form.setValues((prev) => ({ ...prev, privacyPolicy: e.target.checked }))
+              }
               disabled={isLoading}
             />
           </FormControl>
           <div className={styles.checkboxLabelContainer}>
-            <FormLabel htmlFor="privacyPolicy">Acepto la política de privacidad y los términos de servicio.</FormLabel>
+            <FormLabel htmlFor="privacyPolicy">
+              Acepto la política de privacidad y los términos de servicio.
+            </FormLabel>
             <FormMessage />
           </div>
         </FormItem>
@@ -250,18 +279,21 @@ const RegisterForm: React.FC<{ onSuccess?: () => void }> = ({ onSuccess }) => {
   );
 };
 
-const EditForm: React.FC<{ patient: PatientProfile; onSuccess?: () => void }> = ({ patient, onSuccess }) => {
+const EditForm: React.FC<{ patient: PatientProfile; onSuccess?: () => void }> = ({
+  patient,
+  onSuccess,
+}) => {
   const form = useForm({
     schema: updateSchema,
     defaultValues: {
       patientId: patient.id,
-      address: patient.address ?? '',
-      phone: patient.phone ?? '',
+      address: patient.address ?? "",
+      phone: patient.phone ?? "",
       birthDate: patient.birthDate ? new Date(patient.birthDate) : undefined,
-      allergies: patient.allergies ?? '',
-      medicalHistory: patient.medicalHistory ?? '',
-      emergencyContactName: patient.emergencyContactName ?? '',
-      emergencyContactPhone: patient.emergencyContactPhone ?? '',
+      allergies: patient.allergies ?? "",
+      medicalHistory: patient.medicalHistory ?? "",
+      emergencyContactName: patient.emergencyContactName ?? "",
+      emergencyContactPhone: patient.emergencyContactPhone ?? "",
     },
   });
 
@@ -270,36 +302,38 @@ const EditForm: React.FC<{ patient: PatientProfile; onSuccess?: () => void }> = 
   const { isLoading } = useLoadingStates([updateMutation]);
 
   const onSubmit = (values: UpdateFormValues) => {
-    const changedValues: Partial<UpdateInputType> & { patientId: number } = { patientId: patient.id };
+    const changedValues: Partial<UpdateInputType> & { patientId: number } = {
+      patientId: patient.id,
+    };
     let hasChanges = false;
 
-    (Object.keys(values) as Array<keyof UpdateFormValues>).forEach(key => {
-        if (key === 'patientId') return;
-        
-        const formValue = values[key];
-        const patientValue = patient[key as keyof PatientProfile];
+    (Object.keys(values) as Array<keyof UpdateFormValues>).forEach((key) => {
+      if (key === "patientId") return;
 
-        // Handle date comparison
-        if (key === 'birthDate' && formValue instanceof Date && patientValue) {
-            if (formValue.getTime() !== new Date(patientValue).getTime()) {
-                (changedValues as any)[key] = formValue;
-                hasChanges = true;
-            }
-        } else if (formValue !== (patientValue ?? '')) {
-            (changedValues as any)[key] = formValue;
-            hasChanges = true;
+      const formValue = values[key];
+      const patientValue = patient[key as keyof PatientProfile];
+
+      // Handle date comparison
+      if (key === "birthDate" && formValue instanceof Date && patientValue) {
+        if (formValue.getTime() !== new Date(patientValue).getTime()) {
+          (changedValues as any)[key] = formValue;
+          hasChanges = true;
         }
+      } else if (formValue !== (patientValue ?? "")) {
+        (changedValues as any)[key] = formValue;
+        hasChanges = true;
+      }
     });
 
     if (hasChanges) {
-        updateMutation.mutate(changedValues as UpdateInputType, {
-            onSuccess: () => {
-                showSuccessToast('profileUpdate');
-                onSuccess?.();
-            },
-        });
+      updateMutation.mutate(changedValues as UpdateInputType, {
+        onSuccess: () => {
+          showSuccessToast("profileUpdate");
+          onSuccess?.();
+        },
+      });
     } else {
-        onSuccess?.(); // No changes, just close the form
+      onSuccess?.(); // No changes, just close the form
     }
   };
 
@@ -317,7 +351,11 @@ const EditForm: React.FC<{ patient: PatientProfile; onSuccess?: () => void }> = 
                     className={styles.datePickerButton}
                     disabled={isLoading}
                   >
-                    {form.values.birthDate ? form.values.birthDate.toLocaleDateString('es-AR') : <span>Seleccionar fecha</span>}
+                    {form.values.birthDate ? (
+                      form.values.birthDate.toLocaleDateString("es-AR")
+                    ) : (
+                      <span>Seleccionar fecha</span>
+                    )}
                     <CalendarIcon size={16} />
                   </Button>
                 </FormControl>
@@ -326,8 +364,10 @@ const EditForm: React.FC<{ patient: PatientProfile; onSuccess?: () => void }> = 
                 <Calendar
                   mode="single"
                   selected={form.values.birthDate}
-                  onSelect={(date) => form.setValues((prev) => ({ ...prev, birthDate: date as Date }))}
-                  disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
+                  onSelect={(date) =>
+                    form.setValues((prev) => ({ ...prev, birthDate: date as Date }))
+                  }
+                  disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                   initialFocus
                 />
               </PopoverContent>
@@ -364,33 +404,35 @@ const EditForm: React.FC<{ patient: PatientProfile; onSuccess?: () => void }> = 
 
         <h3 className={styles.sectionTitle}>Información Médica</h3>
         <div className={styles.grid}>
-            <FormItem name="allergies" className={styles.fullWidth}>
-                <FormLabel>Alergias</FormLabel>
-                <FormControl>
-                <Textarea
-                    placeholder="Ej: Penicilina, aspirina..."
-                    value={form.values.allergies ?? ''}
-                    onChange={(e) => form.setValues((prev) => ({ ...prev, allergies: e.target.value }))}
-                    disabled={isLoading}
-                />
-                </FormControl>
-                <FormDescription>Si no tiene, deje este campo vacío.</FormDescription>
-                <FormMessage />
-            </FormItem>
+          <FormItem name="allergies" className={styles.fullWidth}>
+            <FormLabel>Alergias</FormLabel>
+            <FormControl>
+              <Textarea
+                placeholder="Ej: Penicilina, aspirina..."
+                value={form.values.allergies ?? ""}
+                onChange={(e) => form.setValues((prev) => ({ ...prev, allergies: e.target.value }))}
+                disabled={isLoading}
+              />
+            </FormControl>
+            <FormDescription>Si no tiene, deje este campo vacío.</FormDescription>
+            <FormMessage />
+          </FormItem>
 
-            <FormItem name="medicalHistory" className={styles.fullWidth}>
-                <FormLabel>Historial Médico Relevante</FormLabel>
-                <FormControl>
-                <Textarea
-                    placeholder="Ej: Diabetes, hipertensión, cirugías previas..."
-                    value={form.values.medicalHistory ?? ''}
-                    onChange={(e) => form.setValues((prev) => ({ ...prev, medicalHistory: e.target.value }))}
-                    disabled={isLoading}
-                />
-                </FormControl>
-                <FormDescription>Si no tiene, deje este campo vacío.</FormDescription>
-                <FormMessage />
-            </FormItem>
+          <FormItem name="medicalHistory" className={styles.fullWidth}>
+            <FormLabel>Historial Médico Relevante</FormLabel>
+            <FormControl>
+              <Textarea
+                placeholder="Ej: Diabetes, hipertensión, cirugías previas..."
+                value={form.values.medicalHistory ?? ""}
+                onChange={(e) =>
+                  form.setValues((prev) => ({ ...prev, medicalHistory: e.target.value }))
+                }
+                disabled={isLoading}
+              />
+            </FormControl>
+            <FormDescription>Si no tiene, deje este campo vacío.</FormDescription>
+            <FormMessage />
+          </FormItem>
         </div>
 
         <h3 className={styles.sectionTitle}>Contacto de Emergencia</h3>
@@ -401,7 +443,9 @@ const EditForm: React.FC<{ patient: PatientProfile; onSuccess?: () => void }> = 
               <Input
                 placeholder="Ej: María González"
                 value={form.values.emergencyContactName}
-                onChange={(e) => form.setValues((prev) => ({ ...prev, emergencyContactName: e.target.value }))}
+                onChange={(e) =>
+                  form.setValues((prev) => ({ ...prev, emergencyContactName: e.target.value }))
+                }
                 disabled={isLoading}
               />
             </FormControl>
@@ -414,7 +458,9 @@ const EditForm: React.FC<{ patient: PatientProfile; onSuccess?: () => void }> = 
               <Input
                 placeholder="Ej: 11 9876 5432"
                 value={form.values.emergencyContactPhone}
-                onChange={(e) => form.setValues((prev) => ({ ...prev, emergencyContactPhone: e.target.value }))}
+                onChange={(e) =>
+                  form.setValues((prev) => ({ ...prev, emergencyContactPhone: e.target.value }))
+                }
                 disabled={isLoading}
               />
             </FormControl>
@@ -423,25 +469,30 @@ const EditForm: React.FC<{ patient: PatientProfile; onSuccess?: () => void }> = 
         </div>
 
         <div className={styles.buttonContainer}>
-            <Button type="button" variant="outline" onClick={onSuccess} disabled={isLoading}>
-                Cancelar
-            </Button>
-            <Button type="submit" disabled={isLoading}>
-                {isLoading && <Loader2 className={styles.spinner} />}
-                Guardar Cambios
-            </Button>
+          <Button type="button" variant="outline" onClick={onSuccess} disabled={isLoading}>
+            Cancelar
+          </Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading && <Loader2 className={styles.spinner} />}
+            Guardar Cambios
+          </Button>
         </div>
       </form>
     </Form>
   );
 };
 
-export const PatientForm: React.FC<PatientFormProps> = ({ mode, patient, onSuccess, className }) => {
-  if (mode === 'register') {
+export const PatientForm: React.FC<PatientFormProps> = ({
+  mode,
+  patient,
+  onSuccess,
+  className,
+}) => {
+  if (mode === "register") {
     return <RegisterForm onSuccess={onSuccess} />;
   }
 
-  if (mode === 'edit' && patient) {
+  if (mode === "edit" && patient) {
     return <EditForm patient={patient} onSuccess={onSuccess} />;
   }
 

@@ -7,8 +7,9 @@ import styles from "./Collapsible.module.css";
 
 const Collapsible = CollapsiblePrimitive.Root;
 
-interface CollapsibleTriggerProps
-  extends React.ComponentPropsWithoutRef<typeof CollapsiblePrimitive.Trigger> {
+interface CollapsibleTriggerProps extends React.ComponentPropsWithoutRef<
+  typeof CollapsiblePrimitive.Trigger
+> {
   icon?: React.ReactNode;
 }
 

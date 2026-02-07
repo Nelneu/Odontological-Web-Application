@@ -5,8 +5,7 @@
     z-index: var(--z-overlay);
     background-color: color-mix(in srgb, black 50%, transparent);
     backdrop-filter: blur(2px);
-    animation: overlayShow var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: overlayShow var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .content {
@@ -17,8 +16,7 @@
     background-color: var(--popup);
     color: var(--popup-foreground);
     box-shadow: var(--shadow-lg);
-    transition: transform var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
     overflow-y: auto;
   }
 
@@ -30,8 +28,7 @@
     max-height: 500px;
     border-bottom-left-radius: var(--radius-md);
     border-bottom-right-radius: var(--radius-md);
-    animation: slideDownAndFade var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: slideDownAndFade var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .bottom {
@@ -42,8 +39,7 @@
     max-height: 500px;
     border-top-left-radius: var(--radius-md);
     border-top-right-radius: var(--radius-md);
-    animation: slideUpAndFade var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: slideUpAndFade var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .left {
@@ -54,8 +50,7 @@
     max-width: 400px;
     border-top-right-radius: var(--radius-md);
     border-bottom-right-radius: var(--radius-md);
-    animation: slideRightAndFade var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: slideRightAndFade var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .right {
@@ -66,8 +61,7 @@
     max-width: 400px;
     border-top-left-radius: var(--radius-md);
     border-bottom-left-radius: var(--radius-md);
-    animation: slideLeftAndFade var(--animation-duration-normal)
-      cubic-bezier(0.16, 1, 0.3, 1);
+    animation: slideLeftAndFade var(--animation-duration-normal) cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .close {

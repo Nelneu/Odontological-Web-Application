@@ -15,11 +15,7 @@ const queryClient = new QueryClient({
   },
 });
 
-export const GlobalContextProviders = ({
-  children,
-}: {
-  children: ReactNode;
-}) => {
+export const GlobalContextProviders = ({ children }: { children: ReactNode }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ScrollToHashElement />

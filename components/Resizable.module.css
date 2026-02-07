@@ -18,10 +18,10 @@
 
 .resizeHandle {
   position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
   transition: background-color var(--animation-duration-fast) ease;
 }
 

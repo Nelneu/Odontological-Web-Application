@@ -9,20 +9,14 @@ export const ResizablePanelGroup = ({
   className,
   ...props
 }: React.ComponentProps<typeof ResizablePrimitive.PanelGroup>) => (
-  <ResizablePrimitive.PanelGroup
-    className={`${styles.panelGroup} ${className || ""}`}
-    {...props}
-  />
+  <ResizablePrimitive.PanelGroup className={`${styles.panelGroup} ${className || ""}`} {...props} />
 );
 
 export const ResizablePanel = ({
   className,
   ...props
 }: React.ComponentProps<typeof ResizablePrimitive.Panel>) => (
-  <ResizablePrimitive.Panel
-    className={`${styles.panel} ${className || ""}`}
-    {...props}
-  />
+  <ResizablePrimitive.Panel className={`${styles.panel} ${className || ""}`} {...props} />
 );
 
 export const ResizableHandle = ({

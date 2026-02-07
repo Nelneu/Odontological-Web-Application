@@ -1,5 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { postPatientProfile, InputType, OutputType } from "../endpoints/patients/profile_POST.schema";
+import {
+  postPatientProfile,
+  InputType,
+  OutputType,
+} from "../endpoints/patients/profile_POST.schema";
 import { PATIENT_PROFILE_QUERY_KEY } from "./usePatientProfile";
 import { PATIENTS_QUERY_KEY } from "./usePatients";
 import { toast } from "sonner";
@@ -25,11 +29,11 @@ export const useUpdatePatientProfile = () => {
       await queryClient.cancelQueries({ queryKey });
 
       // Snapshot the previous value
-      const previousProfile = queryClient.getQueryData<OutputType['patient']>(queryKey);
+      const previousProfile = queryClient.getQueryData<OutputType["patient"]>(queryKey);
 
       // Optimistically update to the new value
       if (previousProfile) {
-        queryClient.setQueryData<OutputType['patient']>(queryKey, {
+        queryClient.setQueryData<OutputType["patient"]>(queryKey, {
           ...previousProfile,
           ...updatedProfile,
         });

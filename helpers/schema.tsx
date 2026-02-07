@@ -5,11 +5,17 @@
 
 import type { ColumnType } from "kysely";
 
-export type AppointmentStatus = "ausente" | "cancelada" | "completada" | "confirmada" | "programada";
+export type AppointmentStatus =
+  | "ausente"
+  | "cancelada"
+  | "completada"
+  | "confirmada"
+  | "programada";
 
-export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
-  ? ColumnType<S, I | undefined, U>
-  : ColumnType<T, T | undefined, T>;
+export type Generated<T> =
+  T extends ColumnType<infer S, infer I, infer U>
+    ? ColumnType<S, I | undefined, U>
+    : ColumnType<T, T | undefined, T>;
 
 export type Numeric = ColumnType<string, number | string, number | string>;
 
@@ -114,8 +120,18 @@ export interface DB {
   users: Users;
 }
 
-
 // Use these for zod schema enums or other purposes, since the kysely enums are just types
-export const UserRoleArrayValues: [UserRole, ...UserRole[]] = ["admin","dentist","patient","user"];
-export const AppointmentStatusArrayValues: [AppointmentStatus, ...AppointmentStatus[]] = ["ausente","cancelada","completada","confirmada","programada"];
+export const UserRoleArrayValues: [UserRole, ...UserRole[]] = [
+  "admin",
+  "dentist",
+  "patient",
+  "user",
+];
+export const AppointmentStatusArrayValues: [AppointmentStatus, ...AppointmentStatus[]] = [
+  "ausente",
+  "cancelada",
+  "completada",
+  "confirmada",
+  "programada",
+];
 // Note: kysely maps the table/column/enum names from snake_case to camelCase and PascalCase. When running SQL statements, make sure to use snake_case, but TypeScript code should use camelCase or PascalCase.

@@ -13,10 +13,7 @@ export type SuccessTopic =
   | "appointmentCancelled"
   | "appointmentUpdated";
 
-const successMessages: Record<
-  SuccessTopic,
-  { title: string; description?: string }
-> = {
+const successMessages: Record<SuccessTopic, { title: string; description?: string }> = {
   patientRegistration: {
     title: "¡Registro Exitoso!",
     description: "Bienvenido/a. Ya puedes gestionar tus turnos.",
@@ -27,8 +24,7 @@ const successMessages: Record<
   },
   appointmentScheduled: {
     title: "Turno Agendado",
-    description:
-      "Tu turno ha sido programado con éxito. Recibirás un recordatorio.",
+    description: "Tu turno ha sido programado con éxito. Recibirás un recordatorio.",
   },
   appointmentCancelled: {
     title: "Turno Cancelado",

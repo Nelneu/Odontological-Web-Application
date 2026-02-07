@@ -13,14 +13,9 @@ export async function getServerUserSession(request: Request) {
 
   // Occasionally clean up expired sessions
   if (Math.random() < CleanupProbability) {
-    const expirationDate = new Date(
-      Date.now() - SessionExpirationSeconds * 1000
-    );
+    const expirationDate = new Date(Date.now() - SessionExpirationSeconds * 1000);
     try {
-      await db
-        .deleteFrom("sessions")
-        .where("lastAccessed", "<", expirationDate)
-        .execute();
+      await db.deleteFrom("sessions").where("lastAccessed", "<", expirationDate).execute();
     } catch (cleanupError) {
       // Log but don't fail the request if cleanup fails
       console.error("Session cleanup error:", cleanupError);

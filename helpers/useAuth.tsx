@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useCallback,
-  useRef,
-  useEffect,
-} from "react";
+import React, { createContext, useContext, useCallback, useRef, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getSession } from "../endpoints/auth/session_GET.schema";
 import { postLogout } from "../endpoints/auth/logout_POST.schema";
@@ -44,9 +38,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // Add this to components/_globalContextProviders but not any pageLayout files.
 // Make sure it's within the QueryClientProvider
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const queryClient = useQueryClient();
 
   const { data, error, status, refetch } = useQuery({
@@ -69,8 +61,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       : status === "error"
         ? {
             type: "unauthenticated",
-            errorMessage:
-              error instanceof Error ? error.message : "Session check failed",
+            errorMessage: error instanceof Error ? error.message : "Session check failed",
           }
         : data
           ? { type: "authenticated", user: data }
@@ -91,13 +82,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     (user: User) => {
       queryClient.setQueryData(AUTH_QUERY_KEY, user);
     },
-    [queryClient]
+    [queryClient],
   );
 
   return (
-    <AuthContext.Provider value={{ authState, logout, onLogin }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ authState, logout, onLogin }}>{children}</AuthContext.Provider>
   );
 };
 

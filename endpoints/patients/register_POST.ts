@@ -21,7 +21,7 @@ export async function handle(request: Request) {
     if (existingUser) {
       return new Response(
         superjson.stringify({ error: "An account with this email already exists." }),
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -74,15 +74,15 @@ export async function handle(request: Request) {
       .execute();
 
     const responseUser: User = {
-        id: user.id,
-        email: user.email,
-        displayName: user.displayName,
-        avatarUrl: user.avatarUrl,
-        role: 'patient'
+      id: user.id,
+      email: user.email,
+      displayName: user.displayName,
+      avatarUrl: user.avatarUrl,
+      role: "patient",
     };
 
     const response = new Response(
-      superjson.stringify({ user: responseUser, patient } satisfies OutputType)
+      superjson.stringify({ user: responseUser, patient } satisfies OutputType),
     );
 
     await setServerSession(response, {
@@ -95,11 +95,16 @@ export async function handle(request: Request) {
   } catch (error) {
     console.error("Patient registration error:", error);
     if (error instanceof z.ZodError) {
-      return new Response(superjson.stringify({ error: "Invalid input data", details: error.errors }), { status: 400 });
+      return new Response(
+        superjson.stringify({ error: "Invalid input data", details: error.errors }),
+        { status: 400 },
+      );
     }
     if (error instanceof Error) {
       return new Response(superjson.stringify({ error: error.message }), { status: 400 });
     }
-    return new Response(superjson.stringify({ error: "An unknown error occurred" }), { status: 500 });
+    return new Response(superjson.stringify({ error: "An unknown error occurred" }), {
+      status: 500,
+    });
   }
 }

@@ -22,15 +22,22 @@ if (!window.requestIdleCallback) {
 
 import "./base.css";
 
-const fileNameToRoute = new Map([["./pages/login.tsx","/login"],["./pages/_index.tsx","/"],["./pages/profile.tsx","/profile"],["./pages/calendar.tsx","/calendar"],["./pages/dashboard.tsx","/dashboard"],["./pages/register-patient.tsx","/register-patient"]]);
+const fileNameToRoute = new Map([
+  ["./pages/login.tsx", "/login"],
+  ["./pages/_index.tsx", "/"],
+  ["./pages/profile.tsx", "/profile"],
+  ["./pages/calendar.tsx", "/calendar"],
+  ["./pages/dashboard.tsx", "/dashboard"],
+  ["./pages/register-patient.tsx", "/register-patient"],
+]);
 const fileNameToComponent = new Map([
-    ["./pages/login.tsx", Page_0],
-["./pages/_index.tsx", Page_1],
-["./pages/profile.tsx", Page_2],
-["./pages/calendar.tsx", Page_3],
-["./pages/dashboard.tsx", Page_4],
-["./pages/register-patient.tsx", Page_5],
-  ]);
+  ["./pages/login.tsx", Page_0],
+  ["./pages/_index.tsx", Page_1],
+  ["./pages/profile.tsx", Page_2],
+  ["./pages/calendar.tsx", Page_3],
+  ["./pages/dashboard.tsx", Page_4],
+  ["./pages/register-patient.tsx", Page_5],
+]);
 
 function makePageRoute(filename: string) {
   const Component = fileNameToComponent.get(filename);
@@ -69,10 +76,7 @@ function toElement({
   ];
 }
 
-type LayoutTrieNode = Map<
-  React.ComponentType<{ children: React.ReactNode }>,
-  LayoutTrie
->;
+type LayoutTrieNode = Map<React.ComponentType<{ children: React.ReactNode }>, LayoutTrie>;
 type LayoutTrie = { topLevel: string[]; trie: LayoutTrieNode };
 function buildLayoutTrie(layouts: {
   [fileName: string]: React.ComponentType<{ children: React.ReactNode }>[];
@@ -99,7 +103,13 @@ function NotFound() {
     <div>
       <h1>Not Found</h1>
       <p>The page you are looking for does not exist.</p>
-      <p>Go back to the <a href="/" style={{ color: 'blue' }}>home page</a>.</p>
+      <p>
+        Go back to the{" "}
+        <a href="/" style={{ color: "blue" }}>
+          home page
+        </a>
+        .
+      </p>
     </div>
   );
 }
@@ -109,14 +119,18 @@ export function App() {
     <BrowserRouter>
       <GlobalContextProviders>
         <Routes>
-          {toElement({ trie: buildLayoutTrie({
-"./pages/login.tsx": PageLayout_0,
-"./pages/_index.tsx": PageLayout_1,
-"./pages/profile.tsx": PageLayout_2,
-"./pages/calendar.tsx": PageLayout_3,
-"./pages/dashboard.tsx": PageLayout_4,
-"./pages/register-patient.tsx": PageLayout_5,
-}), fileNameToRoute, makePageRoute })} 
+          {toElement({
+            trie: buildLayoutTrie({
+              "./pages/login.tsx": PageLayout_0,
+              "./pages/_index.tsx": PageLayout_1,
+              "./pages/profile.tsx": PageLayout_2,
+              "./pages/calendar.tsx": PageLayout_3,
+              "./pages/dashboard.tsx": PageLayout_4,
+              "./pages/register-patient.tsx": PageLayout_5,
+            }),
+            fileNameToRoute,
+            makePageRoute,
+          })}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </GlobalContextProviders>

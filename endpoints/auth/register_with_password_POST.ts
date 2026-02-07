@@ -2,10 +2,7 @@
 import { db } from "../../helpers/db";
 import { schema } from "./register_with_password_POST.schema";
 import { randomBytes } from "crypto";
-import {
-  setServerSession,
-  SessionExpirationSeconds,
-} from "../../helpers/getSetServerSession";
+import { setServerSession, SessionExpirationSeconds } from "../../helpers/getSetServerSession";
 import { generatePasswordHash } from "../../helpers/generatePasswordHash";
 
 export async function handle(request: Request) {
@@ -22,10 +19,7 @@ export async function handle(request: Request) {
       .execute();
 
     if (existingUser.length > 0) {
-      return Response.json(
-        { message: "email already in use" },
-        { status: 409 }
-      );
+      return Response.json({ message: "email already in use" }, { status: 409 });
     }
 
     const passwordHash = await generatePasswordHash(password);
@@ -89,8 +83,7 @@ export async function handle(request: Request) {
     return response;
   } catch (error: unknown) {
     console.error("Registration error:", error);
-    const errorMessage =
-      error instanceof Error ? error.message : "Registration failed";
+    const errorMessage = error instanceof Error ? error.message : "Registration failed";
     return Response.json({ message: errorMessage }, { status: 400 });
   }
 }

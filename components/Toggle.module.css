@@ -79,7 +79,7 @@
     background-color: var(--muted);
   }
 
-    .toggle-variant-default:active {
+  .toggle-variant-default:active {
     background-color: color-mix(in srgb, var(--muted) 80%, white);
   }
 
@@ -88,7 +88,7 @@
     color: var(--primary-foreground);
   }
 
-    .toggle-variant-default[data-state="on"]:hover {
+  .toggle-variant-default[data-state="on"]:hover {
     background-color: color-mix(in srgb, var(--primary) 90%, black);
   }
 
@@ -106,7 +106,7 @@
     background-color: var(--muted);
   }
 
-    .toggle-variant-outline:active {
+  .toggle-variant-outline:active {
     background-color: color-mix(in srgb, var(--muted) 80%, white);
   }
 
@@ -116,7 +116,7 @@
     color: var(--foreground);
   }
 
-    .toggle-variant-outline[data-state="on"]:hover {
+  .toggle-variant-outline[data-state="on"]:hover {
     background-color: color-mix(in srgb, var(--muted) 80%, white);
   }
 
@@ -140,7 +140,7 @@
     background-color: var(--muted);
   }
 
-    :global(.dark) .toggle-variant-default:active {
+  :global(.dark) .toggle-variant-default:active {
     background-color: color-mix(in srgb, var(--muted) 80%, black);
   }
 
@@ -153,7 +153,7 @@
     background-color: var(--muted);
   }
 
-    :global(.dark) .toggle-variant-outline:active {
+  :global(.dark) .toggle-variant-outline:active {
     background-color: color-mix(in srgb, var(--muted) 80%, black);
   }
 
@@ -162,7 +162,7 @@
     border-color: var(--primary);
   }
 
-    :global(.dark) .toggle-variant-outline[data-state="on"]:hover {
+  :global(.dark) .toggle-variant-outline[data-state="on"]:hover {
     background-color: color-mix(in srgb, var(--muted) 80%, black);
   }
 

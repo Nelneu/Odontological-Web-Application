@@ -26,7 +26,9 @@ export const useRegisterPatient = () => {
     onError: (error) => {
       console.error("Patient registration failed:", error);
       if (error instanceof Error) {
-        toast.error(error.message || "Ocurrió un error durante el registro. Por favor, intente de nuevo.");
+        toast.error(
+          error.message || "Ocurrió un error durante el registro. Por favor, intente de nuevo.",
+        );
       } else {
         toast.error("Ocurrió un error desconocido durante el registro.");
       }
