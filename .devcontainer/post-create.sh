@@ -136,9 +136,9 @@ ENVEOF
 # 6. Install dependencies and build
 echo "[6/6] Installing dependencies and building..."
 pnpm install
-npx vite build
+pnpm build
 
 echo ""
 echo "=== Setup complete! ==="
-echo "Run: pnpm tsx server.ts"
-echo "Then open the forwarded port 3344 in your browser."
+echo "To start the server run: pnpm start"
+echo "The browser will open automatically on port 3344."

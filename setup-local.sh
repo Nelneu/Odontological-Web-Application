@@ -131,11 +131,11 @@ fi
 
 # 5. Build frontend and start server
 echo "[5/5] Building frontend..."
-npx vite build
+pnpm build
 
 echo ""
 echo "=== Setup complete! ==="
 echo "Starting server on http://localhost:3344"
 echo "Press Ctrl+C to stop."
 echo ""
-pnpm tsx server.ts
+pnpm start
