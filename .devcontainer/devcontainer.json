@@ -2,10 +2,11 @@
   "name": "Odontological Web Application",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
   "features": {
-    "ghcr.io/devcontainers/features/node:1": {
-      "version": "22"
+    "ghcr.io/devcontainers/features/postgres:1": {
+      "version": "17"
     }
   },
+  "remoteUser": "root",
   "forwardPorts": [3344],
   "portsAttributes": {
     "3344": {
@@ -13,9 +14,8 @@
       "onAutoForward": "openBrowser"
     }
   },
-  "remoteUser": "root",
   "postCreateCommand": "bash .devcontainer/post-create.sh",
-  "postStartCommand": "pg_ctlcluster 17 main start 2>/dev/null || true",
+  "postStartCommand": "service postgresql start 2>/dev/null || pg_ctlcluster $(ls /etc/postgresql | head -1) main start 2>/dev/null || true",
   "customizations": {
     "vscode": {
       "extensions": [
