@@ -10,6 +10,7 @@
  * Idempotent: skips users that already exist.
  */
 
+import "../loadEnv.js";
 import { db } from "../helpers/db";
 import { generatePasswordHash } from "../helpers/generatePasswordHash";
 import { sql } from "kysely";
