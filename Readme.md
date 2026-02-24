@@ -113,29 +113,136 @@ Preguntas Abiertas:
 
 Made with Floot.
 
-# Instructions
+---
 
-For security reasons, the `env.json` file is not pre-populated — you will need to generate or retrieve the values yourself.
+# Cómo levantar la aplicación localmente
 
-For **JWT secrets**, generate a value with:
+## Requisitos previos
 
+- [Node.js](https://nodejs.org/) v22+
+- [pnpm](https://pnpm.io/) (`npm install -g pnpm`)
+- PostgreSQL 17
+
+## Opción A — Script automático (recomendado)
+
+Este script hace todo: instala dependencias, levanta PostgreSQL, crea la base de datos con sus tablas, genera `env.json`, carga usuarios de prueba y arranca el servidor.
+
+```bash
+bash setup-local.sh
 ```
+
+La app queda disponible en **http://localhost:3344**.
+
+---
+
+## Opción B — Paso a paso manual
+
+### 1. Instalar dependencias
+
+```bash
+pnpm install
+```
+
+### 2. Configurar variables de entorno
+
+Copiá el archivo de ejemplo y completá los valores:
+
+```bash
+cp env.example.json env.json
+```
+
+Contenido de `env.json`:
+
+```json
+{
+  "FLOOT_DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/odontologica",
+  "JWT_SECRET": "<generá un valor con el comando de abajo>"
+}
+```
+
+Para generar el `JWT_SECRET`:
+
+```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-Then paste the generated value into the appropriate field.
+### 3. Levantar PostgreSQL y crear la base de datos
 
-For the **Floot Database**, request a `pg_dump` from support, upload it to your own PostgreSQL database, and then fill in the connection string value.
+```bash
+# Iniciar PostgreSQL (Ubuntu / Codespaces)
+pg_ctlcluster 17 main start
 
-**Note:** Floot OAuth will not work in self-hosted environments.
+# Configurar la contraseña del usuario postgres (necesario para conexiones TCP)
+su - postgres -c "psql -c \"ALTER USER postgres WITH PASSWORD 'postgres';\""
 
-For other external services, retrieve your API keys and fill in the corresponding values.
-
-Once everything is configured, you can build and start the service with:
-
+# Crear la base de datos
+PGPASSWORD=postgres psql -U postgres -h localhost -c "CREATE DATABASE odontologica;"
 ```
-npm install -g pnpm
-pnpm install
-pnpm vite build
-pnpm tsx server.ts
+
+Luego ejecutá el script SQL de creación de tablas incluido en `setup-local.sh` (sección `[4/5]`), o corrés directamente `bash setup-local.sh` que lo hace de forma automática.
+
+### 4. Cargar usuarios de prueba
+
+```bash
+pnpm exec tsx scripts/seed.ts
 ```
+
+El script es idempotente: si los usuarios ya existen, actualiza sus contraseñas.
+
+### 5. Build del frontend
+
+```bash
+pnpm build
+```
+
+### 6. Iniciar el servidor
+
+```bash
+pnpm start
+```
+
+La app queda disponible en **http://localhost:3344**.
+
+---
+
+## Credenciales de prueba
+
+| Rol | Email | Contraseña |
+| --- | --- | --- |
+| Administrador | admin@test.com | Test1234 |
+| Dentista | prof@test.com | Test1234 |
+| Paciente | paciente@test.com | Test1234 |
+
+También se muestran en la pantalla de login de la app.
+
+---
+
+## GitHub Codespaces
+
+Al abrir el repositorio en Codespaces, el entorno se configura automáticamente:
+
+- **`postCreateCommand`**: instala dependencias, configura PostgreSQL, crea la base de datos y carga usuarios de prueba.
+- **`postStartCommand`**: reinicia PostgreSQL automáticamente cada vez que el Codespace se reactiva desde suspensión.
+
+Una vez que el Codespace termine de crear, solo necesitás:
+
+```bash
+pnpm build
+pnpm start
+```
+
+El puerto 3344 se reenvía automáticamente y se abre en el navegador.
+
+---
+
+## Comandos útiles
+
+| Comando | Descripción |
+| --- | --- |
+| `pnpm start` | Inicia el servidor |
+| `pnpm build` | Compila el frontend |
+| `pnpm test` | Corre todos los tests |
+| `pnpm test:watch` | Tests en modo watch |
+| `pnpm lint` | Verifica el código con ESLint |
+| `pnpm lint:fix` | Corrige errores de lint automáticamente |
+| `pnpm exec tsx scripts/seed.ts` | Recarga usuarios de prueba |
