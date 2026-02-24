@@ -13,6 +13,7 @@
       "onAutoForward": "openBrowser"
     }
   },
+  "onCreateCommand": "echo 'node ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers",
   "postCreateCommand": "bash .devcontainer/post-create.sh",
   "postStartCommand": "pg_ctlcluster 17 main start 2>/dev/null || true",
   "customizations": {
