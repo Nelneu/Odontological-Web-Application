@@ -129,6 +129,10 @@ SQL
   echo "  Database setup complete."
 fi
 
+# Seed test users (idempotent: skips users that already exist)
+echo "  Seeding test users..."
+pnpm exec tsx scripts/seed.ts
+
 # 5. Build frontend and start server
 echo "[5/5] Building frontend..."
 pnpm build
