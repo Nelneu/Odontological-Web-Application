@@ -134,9 +134,13 @@ cat > env.json <<ENVEOF
 ENVEOF
 
 # 6. Install dependencies and build
-echo "[6/6] Installing dependencies and building..."
+echo "[6/7] Installing dependencies and building..."
 pnpm install
 pnpm build
+
+# 7. Seed test users
+echo "[7/7] Seeding test users..."
+pnpm exec tsx scripts/seed.ts
 
 echo ""
 echo "=== Setup complete! ==="

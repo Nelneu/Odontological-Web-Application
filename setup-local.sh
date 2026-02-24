@@ -26,17 +26,24 @@ else
   pg_ctlcluster 16 main start 2>/dev/null || echo "  Could not auto-start PostgreSQL. Please start it manually."
 fi
 
+# Set postgres user password for TCP connections (required in Codespaces)
+echo "  Configuring PostgreSQL password..."
+su - postgres -c "psql -c \"ALTER USER postgres WITH PASSWORD 'postgres';\"" 2>/dev/null || true
+
+# Export password for all subsequent psql commands
+export PGPASSWORD=postgres
+
 # 4. Create database if it doesn't exist
 echo "[4/5] Setting up database..."
-DB_EXISTS=$(psql -U postgres -tAc "SELECT 1 FROM pg_database WHERE datname='odontologica'" 2>/dev/null || echo "0")
+DB_EXISTS=$(psql -U postgres -h localhost -tAc "SELECT 1 FROM pg_database WHERE datname='odontologica'" 2>/dev/null || echo "0")
 if [ "$DB_EXISTS" = "1" ]; then
   echo "  Database 'odontologica' already exists."
 else
   echo "  Creating database 'odontologica'..."
-  psql -U postgres -c "CREATE DATABASE odontologica;" 2>/dev/null
+  psql -U postgres -h localhost -c "CREATE DATABASE odontologica;"
 
   echo "  Creating tables..."
-  psql -U postgres -d odontologica <<'SQL'
+  psql -U postgres -h localhost -d odontologica <<'SQL'
 CREATE TYPE appointment_status AS ENUM ('ausente', 'cancelada', 'completada', 'confirmada', 'programada');
 CREATE TYPE user_role AS ENUM ('admin', 'dentist', 'patient', 'user');
 
@@ -129,7 +136,19 @@ SQL
   echo "  Database setup complete."
 fi
 
-# Seed test users (idempotent: skips users that already exist)
+# Create env.json if it doesn't exist
+if [ ! -f env.json ]; then
+  echo "  Creating env.json..."
+  JWT_SECRET=$(node -e "console.log(require('crypto').randomBytes(32).toString('hex'))")
+  cat > env.json <<ENVEOF
+{
+  "FLOOT_DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/odontologica",
+  "JWT_SECRET": "${JWT_SECRET}"
+}
+ENVEOF
+fi
+
+# Seed test users (idempotent: creates or updates passwords)
 echo "  Seeding test users..."
 pnpm exec tsx scripts/seed.ts
 

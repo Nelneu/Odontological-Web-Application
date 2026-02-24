@@ -2,19 +2,20 @@
  * Seed script: inserts test users for local development.
  *
  * Users:
- *   admin@test.com    / 123456  (role: admin)
- *   prof@test.com     / 123456  (role: dentist)
- *   paciente@test.com / 123456  (role: patient)
+ *   admin@test.com    / Test1234  (role: admin)
+ *   prof@test.com     / Test1234  (role: dentist)
+ *   paciente@test.com / Test1234  (role: patient)
  *
  * Run with: pnpm exec tsx scripts/seed.ts
- * Idempotent: skips users that already exist.
+ * Idempotent: creates users if missing, updates passwords if they already exist.
  */
 
+import "../loadEnv.js";
 import { db } from "../helpers/db";
 import { generatePasswordHash } from "../helpers/generatePasswordHash";
 import { sql } from "kysely";
 
-const TEST_PASSWORD = "123456";
+const TEST_PASSWORD = "Test1234";
 
 const testUsers = [
   { email: "admin@test.com", displayName: "Administrador", role: "admin" as const },
@@ -36,7 +37,27 @@ async function seed() {
       .executeTakeFirst();
 
     if (existing) {
-      console.log(`  Skipped (already exists): ${userData.email}`);
+      // User exists — ensure password is set and up to date
+      const existingPassword = await db
+        .selectFrom("userPasswords")
+        .select("id")
+        .where("userId", "=", existing.id)
+        .executeTakeFirst();
+
+      if (existingPassword) {
+        await db
+          .updateTable("userPasswords")
+          .set({ passwordHash })
+          .where("userId", "=", existing.id)
+          .execute();
+      } else {
+        await db
+          .insertInto("userPasswords")
+          .values({ userId: existing.id, passwordHash })
+          .execute();
+      }
+
+      console.log(`  Updated password: ${userData.email}`);
       continue;
     }
 

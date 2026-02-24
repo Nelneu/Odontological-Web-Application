@@ -31,21 +31,21 @@ const LoginPage: React.FC = () => {
               <strong>Email:</strong> admin@test.com
             </p>
             <p className={styles.testInfo}>
-              <strong>Password:</strong> 123456
+              <strong>Password:</strong> Test1234
             </p>
             <p className={styles.testInfo}><strong>Profesional</strong></p>
             <p className={styles.testInfo}>
               <strong>Email:</strong> prof@test.com
             </p>
             <p className={styles.testInfo}>
-              <strong>Password:</strong> 123456
+              <strong>Password:</strong> Test1234
             </p>
             <p className={styles.testInfo}><strong>Paciente</strong></p>
             <p className={styles.testInfo}>
               <strong>Email:</strong> paciente@test.com
             </p>
             <p className={styles.testInfo}>
-              <strong>Password:</strong> 123456
+              <strong>Password:</strong> Test1234
             </p>
           </div>
 
