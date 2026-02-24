@@ -23,7 +23,7 @@ if pg_isready -q 2>/dev/null; then
   echo "  PostgreSQL is already running."
 else
   echo "  Starting PostgreSQL..."
-  pg_ctlcluster 16 main start 2>/dev/null || echo "  Could not auto-start PostgreSQL. Please start it manually."
+  pg_ctlcluster 17 main start 2>/dev/null || echo "  Could not auto-start PostgreSQL. Please start it manually."
 fi
 
 # Set postgres user password for TCP connections (required in Codespaces)

@@ -121,7 +121,7 @@ Made with Floot.
 
 - [Node.js](https://nodejs.org/) v22+
 - [pnpm](https://pnpm.io/) (`npm install -g pnpm`)
-- PostgreSQL 16
+- PostgreSQL 17
 
 ## Opción A — Script automático (recomendado)
 
@@ -170,7 +170,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 ```bash
 # Iniciar PostgreSQL (Ubuntu / Codespaces)
-pg_ctlcluster 16 main start
+pg_ctlcluster 17 main start
 
 # Configurar la contraseña del usuario postgres (necesario para conexiones TCP)
 su - postgres -c "psql -c \"ALTER USER postgres WITH PASSWORD 'postgres';\""
