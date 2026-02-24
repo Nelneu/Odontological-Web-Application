@@ -7,7 +7,7 @@
  *   paciente@test.com / 123456  (role: patient)
  *
  * Run with: pnpm exec tsx scripts/seed.ts
- * Idempotent: skips users that already exist.
+ * Idempotent: creates users if missing, updates passwords if they already exist.
  */
 
 import "../loadEnv.js";
@@ -37,7 +37,27 @@ async function seed() {
       .executeTakeFirst();
 
     if (existing) {
-      console.log(`  Skipped (already exists): ${userData.email}`);
+      // User exists — ensure password is set and up to date
+      const existingPassword = await db
+        .selectFrom("userPasswords")
+        .select("id")
+        .where("userId", "=", existing.id)
+        .executeTakeFirst();
+
+      if (existingPassword) {
+        await db
+          .updateTable("userPasswords")
+          .set({ passwordHash })
+          .where("userId", "=", existing.id)
+          .execute();
+      } else {
+        await db
+          .insertInto("userPasswords")
+          .values({ userId: existing.id, passwordHash })
+          .execute();
+      }
+
+      console.log(`  Updated password: ${userData.email}`);
       continue;
     }
 
