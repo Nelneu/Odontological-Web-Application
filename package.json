@@ -1,7 +1,7 @@
 {
   "type": "module",
   "scripts": {
-    "start": "tsx server.ts",
+    "start": "pg_ctlcluster 16 main start 2>/dev/null || true && tsx server.ts",
     "build": "vite build",
     "test": "vitest run",
     "test:watch": "vitest",
