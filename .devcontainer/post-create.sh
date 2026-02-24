@@ -1,6 +1,7 @@
 #!/bin/bash
 # Post-create script for GitHub Codespaces
-# Automatically sets up PostgreSQL, database, dependencies, and builds the app.
+# PostgreSQL is pre-installed by the devcontainer postgres feature (runs as root during image build).
+# This script runs as root (remoteUser: root), so no sudo is needed.
 
 set -e
 
@@ -10,21 +11,30 @@ echo "=== Codespaces Setup: Odontological Web Application ==="
 echo "[1/6] Installing pnpm..."
 npm install -g pnpm
 
-# 2. Install PostgreSQL
-echo "[2/6] Installing PostgreSQL..."
-sudo apt-get update -qq
-sudo apt-get install -y -qq postgresql postgresql-client > /dev/null 2>&1
-sudo service postgresql start
+# 2. Start PostgreSQL
+echo "[2/6] Starting PostgreSQL..."
+service postgresql start 2>/dev/null \
+  || pg_ctlcluster "$(ls /etc/postgresql | head -1)" main start 2>/dev/null \
+  || true
 
-# 3. Configure PostgreSQL (allow local connections without password)
+# Wait for PostgreSQL to be ready (up to 30 seconds)
+echo "  Waiting for PostgreSQL..."
+for i in $(seq 1 30); do
+  pg_isready -U postgres -q && break
+  sleep 1
+done
+
+# 3. Configure PostgreSQL
 echo "[3/6] Configuring PostgreSQL..."
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';" 2>/dev/null || true
+# Running as root: runuser switches to postgres without needing a password
+runuser -l postgres -c "psql -c \"ALTER USER postgres PASSWORD 'postgres';\"" 2>/dev/null || true
 
 # 4. Create database and schema
 echo "[4/6] Setting up database..."
-sudo -u postgres psql -c "CREATE DATABASE odontologica;" 2>/dev/null || echo "  Database already exists."
+runuser -l postgres -c "psql -c \"CREATE DATABASE odontologica;\"" 2>/dev/null \
+  || echo "  Database already exists."
 
-sudo -u postgres psql -d odontologica <<'SQL'
+runuser -l postgres -c "psql -d odontologica" <<'SQL'
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'appointment_status') THEN
