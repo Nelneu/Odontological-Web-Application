@@ -275,6 +275,78 @@ app.post("_api/auth/register_with_password", async (c) => {
     return c.text("Error loading endpoint code " + e.message, 500);
   }
 });
+app.get("_api/users", async (c) => {
+  try {
+    const { handle } = await import("./endpoints/users_GET.js");
+    const request = c.req.raw;
+    const response = await handle(request);
+    if (!(response instanceof Response) && response.constructor.name !== "Response") {
+      return c.text(
+        "Invalid response format. handle should always return a Response object." +
+          response.constructor.name,
+        500,
+      );
+    }
+    return response;
+  } catch (e) {
+    console.error(e);
+    return c.text("Error loading endpoint code " + e.message, 500);
+  }
+});
+app.post("_api/users/create", async (c) => {
+  try {
+    const { handle } = await import("./endpoints/users/create_POST.js");
+    const request = c.req.raw;
+    const response = await handle(request);
+    if (!(response instanceof Response) && response.constructor.name !== "Response") {
+      return c.text(
+        "Invalid response format. handle should always return a Response object." +
+          response.constructor.name,
+        500,
+      );
+    }
+    return response;
+  } catch (e) {
+    console.error(e);
+    return c.text("Error loading endpoint code " + e.message, 500);
+  }
+});
+app.post("_api/users/update", async (c) => {
+  try {
+    const { handle } = await import("./endpoints/users/update_POST.js");
+    const request = c.req.raw;
+    const response = await handle(request);
+    if (!(response instanceof Response) && response.constructor.name !== "Response") {
+      return c.text(
+        "Invalid response format. handle should always return a Response object." +
+          response.constructor.name,
+        500,
+      );
+    }
+    return response;
+  } catch (e) {
+    console.error(e);
+    return c.text("Error loading endpoint code " + e.message, 500);
+  }
+});
+app.post("_api/users/delete", async (c) => {
+  try {
+    const { handle } = await import("./endpoints/users/delete_POST.js");
+    const request = c.req.raw;
+    const response = await handle(request);
+    if (!(response instanceof Response) && response.constructor.name !== "Response") {
+      return c.text(
+        "Invalid response format. handle should always return a Response object." +
+          response.constructor.name,
+        500,
+      );
+    }
+    return response;
+  } catch (e) {
+    console.error(e);
+    return c.text("Error loading endpoint code " + e.message, 500);
+  }
+});
 app.use("/*", serveStatic({ root: "./dist" }));
 app.get("*", async (c, next) => {
   const p = c.req.path;

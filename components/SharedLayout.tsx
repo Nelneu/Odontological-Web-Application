@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../helpers/useAuth";
 import { Button } from "./Button";
-import { Stethoscope, LogOut, User, LayoutDashboard, Calendar } from "lucide-react";
+import { Stethoscope, LogOut, User, LayoutDashboard, Calendar, Users } from "lucide-react";
 import styles from "./SharedLayout.module.css";
 import { Spinner } from "./Spinner";
 
@@ -41,6 +41,14 @@ export const SharedLayout: React.FC<{ children: React.ReactNode }> = ({ children
                 Perfil
               </Link>
             </Button>
+            {authState.user.role === "admin" && (
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/users">
+                  <Users size={16} />
+                  Usuarios
+                </Link>
+              </Button>
+            )}
             <Button variant="outline" size="sm" onClick={handleLogout}>
               <LogOut size={16} />
               Cerrar Sesión
