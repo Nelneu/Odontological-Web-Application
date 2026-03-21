@@ -1,0 +1,244 @@
+.container {
+  padding: var(--spacing-8);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-6);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--spacing-4);
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--foreground);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--muted-foreground);
+  margin: 0;
+}
+
+/* Filters */
+.filters {
+  display: flex;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--background);
+  color: var(--foreground);
+  font-size: 0.9rem;
+  min-width: 300px;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.filterSelect {
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--background);
+  color: var(--foreground);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+/* Table */
+.tableWrapper {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table thead {
+  background-color: var(--muted);
+}
+
+.table th {
+  padding: var(--spacing-3) var(--spacing-4);
+  text-align: left;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted-foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: var(--spacing-3) var(--spacing-4);
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--foreground);
+}
+
+.table tbody tr:hover {
+  background-color: var(--muted);
+}
+
+/* Cell text */
+.cellText {
+  font-size: 0.9rem;
+}
+
+.cellTextBold {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Status badge */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Actions */
+.actionButtons {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.iconButton {
+  background: none;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  color: var(--muted-foreground);
+  padding: var(--spacing-1);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.iconButton:hover {
+  color: var(--foreground);
+  background-color: var(--muted);
+}
+
+.iconButtonDanger:hover {
+  color: #ef4444;
+  border-color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Date cell */
+.dateText {
+  font-size: 0.85rem;
+  color: var(--muted-foreground);
+}
+
+/* Empty & loading */
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-12);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-12) var(--spacing-8);
+  color: var(--muted-foreground);
+  text-align: center;
+}
+
+.emptyState h3 {
+  margin: var(--spacing-4) 0 var(--spacing-2);
+  color: var(--foreground);
+}
+
+/* Confirm dialog */
+.confirmOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+  padding: var(--spacing-4);
+}
+
+.confirmDialog {
+  background-color: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-6);
+  max-width: 400px;
+  width: 100%;
+}
+
+.confirmTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0 0 var(--spacing-2);
+}
+
+.confirmMessage {
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  margin: 0 0 var(--spacing-4);
+}
+
+.confirmActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .table th:nth-child(4),
+  .table td:nth-child(4),
+  .table th:nth-child(6),
+  .table td:nth-child(6) {
+    display: none;
+  }
+
+  .searchInput {
+    min-width: 100%;
+  }
+}

@@ -2,7 +2,15 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../helpers/useAuth";
 import { Button } from "./Button";
-import { Stethoscope, LogOut, User, LayoutDashboard, Calendar, Users } from "lucide-react";
+import {
+  Stethoscope,
+  LogOut,
+  User,
+  LayoutDashboard,
+  Calendar,
+  Users,
+  ClipboardList,
+} from "lucide-react";
 import styles from "./SharedLayout.module.css";
 import { Spinner } from "./Spinner";
 
@@ -41,6 +49,14 @@ export const SharedLayout: React.FC<{ children: React.ReactNode }> = ({ children
                 Perfil
               </Link>
             </Button>
+            {(authState.user.role === "admin" || authState.user.role === "dentist") && (
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/treatments">
+                  <ClipboardList size={16} />
+                  Tratamientos
+                </Link>
+              </Button>
+            )}
             {authState.user.role === "admin" && (
               <Button variant="ghost" size="sm" asChild>
                 <Link to="/users">
