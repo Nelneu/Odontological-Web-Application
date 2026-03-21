@@ -105,3 +105,162 @@
 .errorMessage {
   max-width: 400px;
 }
+
+/* Admin Dashboard */
+.adminDashboard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.bottomSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-6);
+}
+
+@media (max-width: 768px) {
+  .bottomSection {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Chart Card */
+.chartCard {
+  background-color: var(--card);
+  padding: var(--spacing-6);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.chartHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-5);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.chartTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
+/* Status Bars */
+.statusBars {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.statusBarRow {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.statusLabel {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  min-width: 100px;
+  text-align: right;
+}
+
+.statusBarTrack {
+  flex: 1;
+  height: 24px;
+  background-color: var(--muted);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.statusBarFill {
+  height: 100%;
+  border-radius: var(--radius);
+  transition: width 0.5s ease;
+  min-width: 4px;
+}
+
+.statusCount {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  min-width: 32px;
+  text-align: right;
+}
+
+/* Recent Patients */
+.recentList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.recentItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-2) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.recentItem:last-child {
+  border-bottom: none;
+}
+
+.recentAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.recentInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.recentName {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recentEmail {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recentDate {
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+  flex-shrink: 0;
+}
+
+.emptyText {
+  color: var(--muted-foreground);
+  text-align: center;
+  padding: var(--spacing-6) 0;
+  font-size: 0.9rem;
+}

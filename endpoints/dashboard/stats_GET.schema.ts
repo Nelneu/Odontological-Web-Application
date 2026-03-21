@@ -6,6 +6,12 @@ export const schema = z.object({});
 
 export type InputType = z.infer<typeof schema>;
 
+export type AdminRecentPatient = {
+  displayName: string;
+  email: string;
+  createdAt: Date | null;
+};
+
 export type OutputType =
   | {
       role: "dentist";
@@ -19,7 +25,20 @@ export type OutputType =
       treatmentsCount: number;
     }
   | {
-      role: Exclude<UserRole, "dentist" | "patient">;
+      role: "admin";
+      totalUsers: number;
+      totalPatients: number;
+      totalDentists: number;
+      appointmentsToday: number;
+      upcomingAppointments: number;
+      completedAppointments: number;
+      cancelledAppointments: number;
+      totalTreatments: number;
+      recentPatients: AdminRecentPatient[];
+      appointmentsByStatus: Record<string, number>;
+    }
+  | {
+      role: Exclude<UserRole, "dentist" | "patient" | "admin">;
     };
 
 export const getDashboardStats = async (init?: RequestInit): Promise<OutputType> => {
