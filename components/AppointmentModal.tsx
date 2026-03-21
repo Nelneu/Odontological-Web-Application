@@ -136,7 +136,8 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
   const canEdit =
     isNew ||
     (event &&
-      (currentUser.role === "dentist" ||
+      (currentUser.role === "admin" ||
+        currentUser.role === "dentist" ||
         (currentUser.role === "patient" && currentUser.id === event.resource.patient.id)));
 
   return (
@@ -196,7 +197,7 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
               </FormItem>
             </div>
 
-            {currentUser.role === "dentist" && (
+            {(currentUser.role === "dentist" || currentUser.role === "admin") && (
               <FormItem name="patientId">
                 <FormLabel>Paciente</FormLabel>
                 <Select
@@ -223,7 +224,7 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
               </FormItem>
             )}
 
-            {currentUser.role === "patient" && (
+            {(currentUser.role === "patient" || currentUser.role === "admin") && (
               <FormItem name="dentistId">
                 <FormLabel>Odontólogo</FormLabel>
                 <Select
@@ -284,7 +285,7 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
               <FormMessage />
             </FormItem>
 
-            {!isNew && currentUser.role === "dentist" && (
+            {!isNew && (currentUser.role === "dentist" || currentUser.role === "admin") && (
               <FormItem name="status">
                 <FormLabel>Estado</FormLabel>
                 <Select
@@ -322,7 +323,9 @@ export const AppointmentModal: React.FC<AppointmentModalProps> = ({
                   {isProcessing ? <Spinner size="sm" /> : "Cancelar Cita"}
                 </Button>
               )}
-              {!isNew && currentUser.role === "dentist" && form.values.status === "programada" && (
+              {!isNew &&
+                (currentUser.role === "dentist" || currentUser.role === "admin") &&
+                form.values.status === "programada" && (
                 <Button
                   type="button"
                   variant="secondary"
