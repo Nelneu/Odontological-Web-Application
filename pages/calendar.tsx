@@ -69,10 +69,12 @@ const CalendarPage = () => {
 
   const handleSelectSlot = useCallback(
     ({ start, end }: { start: Date; end: Date }) => {
-      if (authState.type === "authenticated" && authState.user.role === "dentist") {
-        setModalState({ isOpen: true, slot: { start, end } });
-      }
-      if (authState.type === "authenticated" && authState.user.role === "patient") {
+      if (
+        authState.type === "authenticated" &&
+        (authState.user.role === "dentist" ||
+          authState.user.role === "patient" ||
+          authState.user.role === "admin")
+      ) {
         setModalState({ isOpen: true, slot: { start, end } });
       }
     },

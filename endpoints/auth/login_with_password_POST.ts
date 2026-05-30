@@ -233,6 +233,7 @@ export async function handle(request: Request) {
 
     return response;
   } catch (error) {
+    console.error("Login error:", error);
     return Response.json({ message: "Authentication failed" }, { status: 400 });
   }
 }

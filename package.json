@@ -1,6 +1,9 @@
 {
   "type": "module",
   "scripts": {
+    "setup": "bash scripts/setup-db.sh && tsx scripts/seed.ts",
+    "start": "bash scripts/setup-db.sh && tsx server.ts",
+    "build": "vite build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",

@@ -73,30 +73,40 @@ export async function setServerSession(response: Response, session: Session): Pr
     .setExpirationTime("1d")
     .sign(encoder.encode(secret));
 
-  const cookieValue = [
+  const isHttps =
+    process.env.NODE_ENV === "production" || process.env.FLOOT_HTTPS === "true";
+  const cookieParts = [
     `${CookieName}=${token}`,
     "HttpOnly",
-    "Secure",
-    "SameSite=Strict",
-    "Partitioned",
+    "SameSite=Lax",
     "Path=/",
     `Max-Age=${SessionExpirationSeconds}`,
-  ].join("; ");
+  ];
+  if (isHttps) {
+    cookieParts.push("Secure");
+    cookieParts.push("Partitioned");
+  }
+  const cookieValue = cookieParts.join("; ");
 
   response.headers.set("Set-Cookie", cookieValue);
 }
 
 export function clearServerSession(response: Response) {
   // Clear the session cookie by setting an expired date
-  const cookieValue = [
+  const isHttps =
+    process.env.NODE_ENV === "production" || process.env.FLOOT_HTTPS === "true";
+  const cookieParts = [
     `${CookieName}=`,
     "HttpOnly",
-    "Secure",
-    "SameSite=Strict",
-    "Partitioned",
+    "SameSite=Lax",
     "Path=/",
-    "Max-Age=0", // Expire immediately
-  ].join("; ");
+    "Max-Age=0",
+  ];
+  if (isHttps) {
+    cookieParts.push("Secure");
+    cookieParts.push("Partitioned");
+  }
+  const cookieValue = cookieParts.join("; ");
 
   response.headers.set("Set-Cookie", cookieValue);
 }

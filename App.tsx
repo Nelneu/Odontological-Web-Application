@@ -13,6 +13,10 @@ import Page_4 from "./pages/dashboard.tsx";
 import PageLayout_4 from "./pages/dashboard.pageLayout.tsx";
 import Page_5 from "./pages/register-patient.tsx";
 import PageLayout_5 from "./pages/register-patient.pageLayout.tsx";
+import Page_6 from "./pages/users.tsx";
+import PageLayout_6 from "./pages/users.pageLayout.tsx";
+import Page_7 from "./pages/treatments.tsx";
+import PageLayout_7 from "./pages/treatments.pageLayout.tsx";
 
 if (!window.requestIdleCallback) {
   window.requestIdleCallback = (cb) => {
@@ -29,6 +33,8 @@ const fileNameToRoute = new Map([
   ["./pages/calendar.tsx", "/calendar"],
   ["./pages/dashboard.tsx", "/dashboard"],
   ["./pages/register-patient.tsx", "/register-patient"],
+  ["./pages/users.tsx", "/users"],
+  ["./pages/treatments.tsx", "/treatments"],
 ]);
 const fileNameToComponent = new Map([
   ["./pages/login.tsx", Page_0],
@@ -37,6 +43,8 @@ const fileNameToComponent = new Map([
   ["./pages/calendar.tsx", Page_3],
   ["./pages/dashboard.tsx", Page_4],
   ["./pages/register-patient.tsx", Page_5],
+  ["./pages/users.tsx", Page_6],
+  ["./pages/treatments.tsx", Page_7],
 ]);
 
 function makePageRoute(filename: string) {
@@ -127,6 +135,8 @@ export function App() {
               "./pages/calendar.tsx": PageLayout_3,
               "./pages/dashboard.tsx": PageLayout_4,
               "./pages/register-patient.tsx": PageLayout_5,
+              "./pages/users.tsx": PageLayout_6,
+              "./pages/treatments.tsx": PageLayout_7,
             }),
             fileNameToRoute,
             makePageRoute,

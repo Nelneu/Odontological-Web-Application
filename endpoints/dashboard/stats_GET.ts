@@ -66,11 +66,106 @@ export async function handle(request: Request) {
         nextAppointmentDate: nextAppointment?.appointmentDate ?? null,
         treatmentsCount: parseInt(treatmentCount.count, 10),
       };
+    } else if (user.role === "admin") {
+      const todayStart = new Date();
+      todayStart.setHours(0, 0, 0, 0);
+      const todayEnd = new Date();
+      todayEnd.setHours(23, 59, 59, 999);
+
+      const [
+        totalUsersResult,
+        totalPatientsResult,
+        totalDentistsResult,
+        appointmentsTodayResult,
+        upcomingAppointmentsResult,
+        completedAppointmentsResult,
+        cancelledAppointmentsResult,
+        totalTreatmentsResult,
+        recentPatientsResult,
+        appointmentsByStatusResult,
+      ] = await Promise.all([
+        db
+          .selectFrom("users")
+          .select((eb) => eb.fn.count<string>("id").as("count"))
+          .executeTakeFirstOrThrow(),
+        db
+          .selectFrom("patients")
+          .select((eb) => eb.fn.count<string>("id").as("count"))
+          .executeTakeFirstOrThrow(),
+        db
+          .selectFrom("users")
+          .select((eb) => eb.fn.count<string>("id").as("count"))
+          .where("role", "=", "dentist")
+          .executeTakeFirstOrThrow(),
+        db
+          .selectFrom("appointments")
+          .select((eb) => eb.fn.count<string>("id").as("count"))
+          .where("appointmentDate", ">=", todayStart)
+          .where("appointmentDate", "<=", todayEnd)
+          .executeTakeFirstOrThrow(),
+        db
+          .selectFrom("appointments")
+          .select((eb) => eb.fn.count<string>("id").as("count"))
+          .where("appointmentDate", ">", new Date())
+          .where("status", "in", ["programada", "confirmada"])
+          .executeTakeFirstOrThrow(),
+        db
+          .selectFrom("appointments")
+          .select((eb) => eb.fn.count<string>("id").as("count"))
+          .where("status", "=", "completada")
+          .executeTakeFirstOrThrow(),
+        db
+          .selectFrom("appointments")
+          .select((eb) => eb.fn.count<string>("id").as("count"))
+          .where("status", "=", "cancelada")
+          .executeTakeFirstOrThrow(),
+        db
+          .selectFrom("treatments")
+          .select((eb) => eb.fn.count<string>("id").as("count"))
+          .executeTakeFirstOrThrow(),
+        db
+          .selectFrom("patients")
+          .innerJoin("users", "users.id", "patients.userId")
+          .select(["users.displayName", "users.email", "patients.createdAt"])
+          .orderBy("patients.createdAt", "desc")
+          .limit(5)
+          .execute(),
+        db
+          .selectFrom("appointments")
+          .select(["status"])
+          .select((eb) => eb.fn.count<string>("id").as("count"))
+          .groupBy("status")
+          .execute(),
+      ]);
+
+      const statusBreakdown: Record<string, number> = {};
+      for (const row of appointmentsByStatusResult) {
+        if (row.status) {
+          statusBreakdown[row.status] = parseInt(row.count, 10);
+        }
+      }
+
+      stats = {
+        role: "admin" as const,
+        totalUsers: parseInt(totalUsersResult.count, 10),
+        totalPatients: parseInt(totalPatientsResult.count, 10),
+        totalDentists: parseInt(totalDentistsResult.count, 10),
+        appointmentsToday: parseInt(appointmentsTodayResult.count, 10),
+        upcomingAppointments: parseInt(upcomingAppointmentsResult.count, 10),
+        completedAppointments: parseInt(completedAppointmentsResult.count, 10),
+        cancelledAppointments: parseInt(cancelledAppointmentsResult.count, 10),
+        totalTreatments: parseInt(totalTreatmentsResult.count, 10),
+        recentPatients: recentPatientsResult.map((p) => ({
+          displayName: p.displayName,
+          email: p.email,
+          createdAt: p.createdAt,
+        })),
+        appointmentsByStatus: statusBreakdown,
+      };
     } else {
-      // For admin or other roles, return generic stats or empty state
+      // For other roles, return generic stats
       stats = {
         role: user.role,
-        // Add admin-specific stats if needed in the future
       };
     }
 
