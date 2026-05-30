@@ -115,7 +115,13 @@ Made with Floot.
 
 ---
 
-# Cómo levantar la aplicación localmente
+The `env.json` file is gitignored to prevent accidental credential leaks. Copy the template to get started:
+
+```
+cp env.example.json env.json
+```
+
+Then fill in the values — you will need to generate or retrieve them yourself.
 
 ## Requisitos previos
 
